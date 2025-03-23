@@ -1,28 +1,41 @@
 import React from "react";
 import { Card, CardContent } from "../components/Card/Card";
-import { FaBell, FaClipboardList, FaFileAlt } from "react-icons/fa";
+import { FaFileAlt, FaReplyAll } from "react-icons/fa";
+import { MdNotificationsActive, MdLiveHelp  } from "react-icons/md";
 
 const cardData = [
-  { id: 1, color: "bg-blue-100", icon: <FaFileAlt size={40} className="text-blue-500" />, value: 4, text: "Help Articles" },
-  { id: 2, color: "bg-green-100", icon: <FaBell size={40} className="text-green-500" />, value: 0, text: "New Tickets" },
-  { id: 3, color: "bg-orange-100", icon: <FaClipboardList size={40} className="text-orange-500" />, value: 2, text: "Replied Tickets" },
-  { id: 4, color: "bg-red-100", icon: <FaFileAlt size={40} className="text-red-500" />, value: 2, text: "Closed Tickets" },
+  { id: 1, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 4, text: "Help Articles" },
+  { id: 2, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: 0, text: "New Tickets" },
+  { id: 3, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: 2, text: "Replied Tickets" },
+  { id: 4, color: "bg-[#D9534F]", icon: <FaFileAlt size={40} className="text-red-100" />, value: 2, text: "Closed Tickets" }
+
 ];
 
 const DashboardCard = () => {
   return (
     <div className="grid grid-cols-4 gap-4">
-      {cardData.map((card) => (
-        <Card key={card.id} className={`p-4 ${card.color}`}>
-          <CardContent className="flex items-center justify-between">
+        {cardData.map((card) => (
+        <div key={card.id}>
+            <Card className={`p-4 ${card.color}`}>
+            <CardContent className="flex items-center justify-between">
+            <div className="flex justify-between mb-2">
             {card.icon}
-            <div className="text-right">
-              <h2 className="text-2xl font-bold">{card.value}</h2>
-              <p>{card.text}</p>
+                <h2 className="text-3xl font-semibold text-white">{card.value}</h2>
             </div>
-          </CardContent>
-        </Card>
-      ))}
+            <div className="text-right text-white">
+                <p>{card.text}</p>
+            </div>
+            </CardContent>
+            </Card>
+            <div className="mt-2 text-left">
+                <a href="#" style={{ color: card.color.replace("bg-[", "").replace("]", "") }}>
+                View Details
+                </a>
+                <hr className="my-2 border-gray-300" />
+          </div>
+        </div>
+        ))}
+
     </div>
   );
 };
