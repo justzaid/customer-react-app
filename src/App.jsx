@@ -1,17 +1,27 @@
+// Hooks
 import { useState, createContext, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Routes, Route, useNavigate } from 'react-router-dom';
+
+// CSS
 import './App.css'
 
+
+// Components
 import Dashboard from './components/Dashboard/Dashboard'
+import Navbar from './components/Navbar/Navbar';
+import SigninForm from './components/SigninForm/SigninForm'
+import SignupForm from './components/SignupForm/SignupForm'
+
+// Services
+import * as authService from '../src/services/authService'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [user, setUser] = useState(authService.getUser());
+  // const navigate = useNavigate();
+
 
   return (
-    <>
-      <Dashboard />
-    </>
+    <SignupForm/>
   )
 }
 
