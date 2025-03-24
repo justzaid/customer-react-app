@@ -1,25 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import SideNavbar from "../SideNavbar/SideNavbar";
 import DashboardCard from "../../DashboardCard/DashboardCard";
 import TicketList from "../TicketList/TicketList";
+import "./Dashboard.css";
 
 const Dashboard = () => {
-  return (
-    <div className="flex">
-        <SideNavbar />
-              
-        <div className="p-6 bg-gray-100 min-h-screen flex-1">
-            <Navbar />
+    const [toggleState, setToggleState] = useState(1);
 
-            <h2 className="text-2xl font-semibold mt-20 mb-4">Dashboard</h2>
+    const toggleTab = (index) => {
+        setToggleState(index);
+    };
 
-            <DashboardCard />
+    return (
+        <div className="flex">
+            <SideNavbar />
+            
+            <div className="p-6 bg-gray-100 min-h-screen flex-1">
+                <Navbar />
+                <h2 className="text-2xl font-semibold mt-20 mb-5">Welcome back, Admin</h2>
 
-            <TicketList />            
+                <div className="bg-white rounded-lg shadow-md">
+                    <div className="tabs-container">
+                        <button 
+                            className={`tab-button ${toggleState === 1 ? "active" : ""}`}
+                            onClick={() => toggleTab(1)}>
+                            Dashboard
+                        </button>
+
+                        <button 
+                            className={`tab-button ${toggleState === 2 ? "active" : ""}`}
+                            onClick={() => toggleTab(2)}>
+                            All Tickets
+                        </button>
+
+                        <button 
+                            className={`tab-button ${toggleState === 3 ? "active" : ""}`}
+                            onClick={() => toggleTab(3)}>
+                            My Assigned Tickets
+                        </button>
+
+                        <button 
+                            className={`tab-button ${toggleState === 4 ? "active" : ""}`}
+                            onClick={() => toggleTab(4)}>
+                            Live Support
+                        </button>
+                    </div>
+
+                    <div className="p-6">
+                        {toggleState === 1 && (
+                            <div>
+                                <DashboardCard />
+                                <TicketList />
+                            </div>
+                        )}
+
+                        {toggleState === 2 && (
+                            <div>
+                                <h2 className="text-xl font-bold">All Tickets</h2>
+                                <hr className="my-2" />
+                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+                            </div>
+                        )}
+
+                        {toggleState === 3 && (
+                            <div>
+                                <h2 className="text-xl font-bold">My Assigned Tickets</h2>
+                                <hr className="my-2" />
+                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+                            </div>
+                        )}
+
+                        {toggleState === 4 && (
+                            <div>
+                                <h2 className="text-xl font-bold">Live support</h2>
+                                <hr className="my-2" />
+                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default Dashboard;

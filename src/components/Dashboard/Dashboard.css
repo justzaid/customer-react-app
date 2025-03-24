@@ -1,0 +1,20 @@
+.tabs-container {
+    display: flex;
+    background-color: #e5e7eb;
+}
+
+.tab-button {
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    border: none;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: white;
+    color: black;
+    border-bottom: 2px solid white
+}
