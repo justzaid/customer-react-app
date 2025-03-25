@@ -33,7 +33,7 @@ const signin = async (user) => {
       body: JSON.stringify(user),
     });
     const json = await res.json();
-    console.log("Signin response:", json);
+    // console.log("Signin response:", json);
     if (json.error) {
       throw new Error(json.error);
     }
@@ -43,7 +43,7 @@ const signin = async (user) => {
       return user;
     }
   } catch (error) {
-    console.log("Signin error:", error);
+    // console.log("Signin error:", error);
     throw error;
   }
 };

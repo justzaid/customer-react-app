@@ -10,6 +10,7 @@ import './App.css'
 import Dashboard from './components/Dashboard/Dashboard'
 import SigninForm from './components/SigninForm/SigninForm'
 import SignupForm from './components/SignupForm/SignupForm'
+import Navbar from './components/Navbar/Navbar';
 
 export const AuthedUserContext = createContext(null);
 
@@ -24,7 +25,7 @@ const App = () => {
     authService.signout();
     console.log(localStorage.getItem('token'));
     setUser(null);
-    navigate('/signin')  
+    navigate('/signin');
   };
 
   return (
@@ -42,6 +43,7 @@ const App = () => {
             </>
           )}
         </Routes>
+          {user ? <Navbar handleSignout={handleSignout}/> : ''}
       </AuthedUserContext.Provider>
     </>
 
