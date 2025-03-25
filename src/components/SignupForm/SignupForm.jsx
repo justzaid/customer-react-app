@@ -40,8 +40,8 @@ const SignupForm = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-          const user = await authService.signin(formData);
-          props.setUser(user);
+          const newUserResponse = await authService.signup(formData);
+          props.setUser(newUserResponse.user);
           navigate('/dashboard');
         } catch (error) {
           updateMessage(error.message);
@@ -85,7 +85,7 @@ const SignupForm = (props) => {
                             
                             <MDBBtn className="mb-4 px-5" color='primary' size='lg' disabled={isFormInvalid()}>Submit</MDBBtn>
 
-                            <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <Link to="/signin" style={{color: 'darkorange'}}>Sign in here</Link></p>
+                            <p className="mb-5 pb-lg-2">Already have an account? <Link to="/signin" style={{color: 'darkorange'}}>Sign in here</Link></p>
                         </form>
 
                         {message && <p style={{ color: 'red' }}>{message}</p>}
