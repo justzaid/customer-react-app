@@ -16,12 +16,20 @@ import SignupForm from './components/SignupForm/SignupForm'
 import * as authService from '../src/services/authService'
 
 function App() {
-  // const [user, setUser] = useState(authService.getUser());
-  // const navigate = useNavigate();
+  const [user, setUser] = useState(authService.getUser());
+  const handleSignout = () => {
+    authService.signout();
+    setUser(null);
+  };
 
 
   return (
-    <SignupForm/>
+    <Routes>
+      <Route path="/signin" element={<SigninForm setUser={setUser}/>} />
+      <Route path="/signup" element={<SignupForm setUser={setUser} />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+
   )
 }
 

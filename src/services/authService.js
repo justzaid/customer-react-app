@@ -20,8 +20,8 @@ const signup = async (formData) => {
     }
     localStorage.setItem('token', json.token);
     return json;
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    throw new Error(error);
   }
 };
 
@@ -33,6 +33,7 @@ const signin = async (user) => {
       body: JSON.stringify(user),
     });
     const json = await res.json();
+    console.log("Signin response:", json);
     if (json.error) {
       throw new Error(json.error);
     }
@@ -42,8 +43,8 @@ const signin = async (user) => {
       return user;
     }
   } catch (error) {
-    console.log(error);
-    throw err;
+    console.log("Signin error:", error);
+    throw error;
   }
 };
 

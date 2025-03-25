@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom'
 import * as authService from '../../services/authService'
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import './SignupForm.css'
 
 import {
   MDBBtn,
@@ -17,7 +18,7 @@ import {
 from 'mdb-react-ui-kit';
 
 
-const SignupForm = () => {
+const SignupForm = (props) => {
     const navigate = useNavigate();
     const [message, setMessage] = useState([''])
     const [formData, setFormData] = useState({
@@ -71,26 +72,26 @@ const SignupForm = () => {
                             className="me-3" 
                             style={{ width: '50px', height: '50px', color: '#ff6219' }} 
                             />
-                            <span className="h1 fw-bold mb-0">AirQue</span>
+                            <span className="company h1 fw-bold mb-0">Airque</span>
                         </div>
 
                         <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Create an account</h5>
 
                         <form onSubmit={handleSubmit}>
                             <MDBInput wrapperClass='mb-4' size="lg" type='text' id='username' name='username' label='Username' autoComplete='off' onChange={handleChange} value={username}/>
-                            <MDBInput wrapperClass='mb-4' size="lg" type='email' id='email' name='email' label='Email address' autoComplete='off' onChange={handleChange} value={email}/>
+                            <MDBInput wrapperClass='mb-4' size="lg" type='email' id='email' name='email' label='Email address' autoComplete='new-email' onChange={handleChange} value={email}/>
                             <MDBInput wrapperClass='mb-4' size="lg" type='password' id='password' name='password' label='Password' autoComplete='off' onChange={handleChange} value={password}/>
                             <MDBInput wrapperClass='mb-4' size="lg" type='password' id='confirm' name='passwordConf' label='Password' autoComplete='off' onChange={handleChange} value={passwordConf}/>
                             
                             <MDBBtn className="mb-4 px-5" color='primary' size='lg' disabled={isFormInvalid()}>Submit</MDBBtn>
 
-                            <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <a href="#!" style={{color: '#393f81'}}>Sign in here</a></p>
+                            <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <Link to="/signin" style={{color: 'darkorange'}}>Sign in here</Link></p>
                         </form>
 
                         {message && <p style={{ color: 'red' }}>{message}</p>}
 
                         <div className='d-flex flex-row justify-content-start'>
-                            <a href="#!" className="small text-muted me-1">Terms of use.</a>
+                            <a href="#!" className="small text-muted me-1">Terms of use</a>
                         </div>
                         <div className='d-flex flex-row justify-content-start'>
                             <a href="#!" className="small text-muted">Privacy policy</a>
