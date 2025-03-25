@@ -11,7 +11,7 @@ const cardData = [
 
 ];
 
-const DashboardCard = () => {
+const UserDashboardCard = () => {
   return (
     <div className="grid grid-cols-4 gap-4">
         {cardData.map((card) => (
@@ -31,7 +31,7 @@ const DashboardCard = () => {
                 <a href="#" style={{ color: card.color.replace("bg-[", "").replace("]", "") }}>
                 View Details
                 </a>
-                <hr className="my-2 border-gray-300" />
+                <hr className="my-2 border-grey-300" />
           </div>
         </div>
         ))}
@@ -40,4 +40,4 @@ const DashboardCard = () => {
   );
 };
 
-export default DashboardCard;
+export default UserDashboardCard;

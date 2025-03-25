@@ -16,7 +16,6 @@ export const AuthedUserContext = createContext(null);
 
 // Services
 import * as authService from '../src/services/authService'
-import DashboardCard from './components/AdminDashboardCard/AdminDashboardCard';
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser());
