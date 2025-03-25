@@ -1,13 +1,13 @@
 import React from "react";
-import { Card, CardContent } from "../components/Card/Card";
+import { Card, CardContent } from "../Card/Card";
 import { FaFileAlt, FaReplyAll } from "react-icons/fa";
 import { MdNotificationsActive, MdLiveHelp  } from "react-icons/md";
 
 const cardData = [
-    { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: 0, text: "New Tickets" },
+    { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: 0, text: "Open Tickets" },
     { id: 2, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: 2, text: "Replied Tickets" },
     { id: 3, color: "bg-[#D9534F]", icon: <FaFileAlt size={40} className="text-red-100" />, value: 2, text: "Closed Tickets" },
-    { id: 4, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 10, text: "Quick tips" }
+    { id: 4, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 10, text: "Resolved Tickets" }
 
 ];
 

@@ -3,7 +3,8 @@ import { AuthedUserContext } from "../../App";
 
 // Components
 import SideNavbar from "../SideNavbar/SideNavbar";
-import DashboardCard from "../../DashboardCard/DashboardCard";
+import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
+import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import TicketList from "../TicketList/TicketList";
 import Navbar from "../Navbar/Navbar";
 
@@ -92,14 +93,15 @@ const Dashboard = () => {
                         {user.role === "admin" ? (
                         toggleState === 1 && (
                             <div>
-                            <DashboardCard />
+                            <AdminDashboardCard />
                             <TicketList />
                             </div>
                         )
-                        ) : (
+                    ) : (
                         toggleState === 1 && (
                             <div>
-                            Content will be added soon
+                            <UserDashboardCard />
+                            <TicketList />
                             </div>
                         )
                         )}
