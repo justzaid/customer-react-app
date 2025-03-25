@@ -30,61 +30,132 @@ const Dashboard = () => {
                 
                 <div className="bg-white rounded-lg shadow-md">
                     <div className="tabs-container">
+
                         <button 
                             className={`tab-button ${toggleState === 1 ? "active" : ""}`}
                             onClick={() => toggleTab(1)}>
                             Dashboard
-                        </button>
+                        </button> 
 
+
+
+                        {user.role === "admin" ? 
                         <button 
                             className={`tab-button ${toggleState === 2 ? "active" : ""}`}
                             onClick={() => toggleTab(2)}>
                             All Tickets
                         </button>
+                        : 
+                        <button 
+                            className={`tab-button ${toggleState === 2 ? "active" : ""}`}
+                            onClick={() => toggleTab(2)}>
+                            My Tickets
+                        </button>
+                        }
 
+
+
+
+                        {user.role === "admin" ? 
                         <button 
                             className={`tab-button ${toggleState === 3 ? "active" : ""}`}
                             onClick={() => toggleTab(3)}>
                             My Assigned Tickets
                         </button>
+                        : 
+                        <button 
+                            className={`tab-button ${toggleState === 3 ? "active" : ""}`}
+                            onClick={() => toggleTab(3)}>
+                            Submit a new Ticket
+                        </button>
+                        }
 
+
+
+
+                        {user.role === "admin" ? 
                         <button 
                             className={`tab-button ${toggleState === 4 ? "active" : ""}`}
                             onClick={() => toggleTab(4)}>
-                            Live Support
+                            Live support
                         </button>
+                        : 
+                        <button 
+                            className={`tab-button ${toggleState === 4 ? "active" : ""}`}
+                            onClick={() => toggleTab(4)}>
+                            Live support
+                        </button>
+                        }    
                     </div>
 
                     <div className="p-6">
-                        {toggleState === 1 && (
+                        {user.role === "admin" ? (
+                        toggleState === 1 && (
                             <div>
-                                <DashboardCard />
-                                <TicketList />
+                            <DashboardCard />
+                            <TicketList />
                             </div>
+                        )
+                        ) : (
+                        toggleState === 1 && (
+                            <div>
+                            Content will be added soon
+                            </div>
+                        )
                         )}
 
-                        {toggleState === 2 && (
+
+
+                        {user.role === "admin" ? (
+                        toggleState === 2 && (
                             <div>
                                 <h2 className="text-xl font-bold">All Tickets</h2>
                                 <hr className="my-2" />
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
                             </div>
+                        )
+                        ) : (
+                        toggleState === 2 && (
+                            <div>
+                            Content will be added soon
+                            </div>
+                        )
                         )}
 
-                        {toggleState === 3 && (
+
+
+                        {user.role === "admin" ? (
+                        toggleState === 3 && (
                             <div>
                                 <h2 className="text-xl font-bold">My Assigned Tickets</h2>
                                 <hr className="my-2" />
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
                             </div>
+                        )
+                        ) : (
+                        toggleState === 3 && (
+                            <div>
+                            Content will be added soon
+                            </div>
+                        )
                         )}
 
-                        {toggleState === 4 && (
+
+
+                        {user.role === "admin" ? (
+                        toggleState === 4 && (
                             <div>
                                 <h2 className="text-xl font-bold">Live support</h2>
                                 <hr className="my-2" />
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
                             </div>
+                        )
+                        ) : (
+                        toggleState === 4 && (
+                            <div>
+                            Content will be added soon
+                            </div>
+                        )
                         )}
                     </div>
                 </div>
