@@ -18,3 +18,7 @@
     color: black;
     border-bottom: 2px solid white
 }
+
+.navbar-a:hover {
+    color: darkorange
+}

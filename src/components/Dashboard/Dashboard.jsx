@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import Navbar from "../Navbar/Navbar";
+import React, { useContext, useState } from "react";
+// import Navbar from "../Navbar/Navbar";
 import SideNavbar from "../SideNavbar/SideNavbar";
 import DashboardCard from "../../DashboardCard/DashboardCard";
 import TicketList from "../TicketList/TicketList";
+import { AuthedUserContext } from "../../App";
+
 import "./Dashboard.css";
 
-const Dashboard = () => {
+const Dashboard = ({ handleSignout }) => {
     const [toggleState, setToggleState] = useState(1);
+    const user = useContext(AuthedUserContext);
 
     const toggleTab = (index) => {
         setToggleState(index);
@@ -17,7 +20,16 @@ const Dashboard = () => {
             <SideNavbar />
             
             <div className="p-6 bg-gray-100 min-h-screen flex-1">
-                <Navbar />
+
+                <header className="bg-[#00A4E8] text-white p-3 flex justify-between items-center fixed top-0 left-64 right-0 z-10">
+                    <h1><a href="#">Home</a></h1>
+                    <div className="nav-container flex gap-4">
+                        <a href="#" className="navbar-a">Messages</a>
+                        <a href="#" className="navbar-a">Profile</a>
+                        <button className="navbar-a" onClick={handleSignout}>Sign Out</button>
+                    </div>
+                </header>
+
                 <h2 className="text-2xl font-semibold mt-20 mb-5">Welcome back, Admin</h2>
 
                 <div className="bg-white rounded-lg shadow-md">

@@ -50,6 +50,7 @@ const signin = async (user) => {
 
 const signout = () => {
   localStorage.removeItem('token');
+  console.log('Token removed');
 };
 
 export { signup, signin, getUser, signout };
