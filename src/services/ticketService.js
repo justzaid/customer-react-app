@@ -1,0 +1,148 @@
+const BASE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/tickets`;
+
+const index = async () => {
+  try {
+    const res = await fetch(BASE_URL, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const show = async (ticketId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const create = async (ticketFormData) => {
+  try {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(ticketFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createReview = async (ticketId, reviewFormData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}/reviews`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reviewFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteTicket = async (ticketId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const update = async (ticketId, ticketFormData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(ticketFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteReview = async (ticketId, reviewId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}/reviews/${reviewId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    if (res.ok) {
+      return true;
+    } else {
+      throw new Error('Failed to delete review');
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const updateReview = async (ticketId, reviewId, reviewFormData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}/reviews/${reviewId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reviewFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getTickets = async () => {
+  try {
+    const res = await fetch(BASE_URL, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching tickets:', error);
+    throw error;
+  }
+};
+
+export {
+  index,
+  show,
+  create,
+  createReview,
+  deleteTicket,
+  update,
+  deleteReview,
+  updateReview,
+  getTickets,
+};
+
+
+

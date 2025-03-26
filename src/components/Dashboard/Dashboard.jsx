@@ -5,7 +5,6 @@ import { AuthedUserContext } from "../../App";
 import SideNavbar from "../SideNavbar/SideNavbar";
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
-import TicketList from "../TicketList/TicketList";
 import Navbar from "../Navbar/Navbar";
 
 // CSS
@@ -94,14 +93,13 @@ const Dashboard = () => {
                         toggleState === 1 && (
                             <div>
                             <AdminDashboardCard />
-                            <TicketList />
+                            
                             </div>
                         )
                     ) : (
                         toggleState === 1 && (
                             <div>
                             <UserDashboardCard />
-                            <TicketList />
                             </div>
                         )
                         )}
@@ -118,9 +116,7 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 2 && (
-                            <div>
-                            Content will be added soon
-                            </div>
+                            <p>Content</p>
                         )
                         )}
 
@@ -136,9 +132,7 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 3 && (
-                            <div>
-                            Content will be added soon
-                            </div>
+                            <p>content</p>
                         )
                         )}
 
