@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthedUserContext } from "../../App";
+import * as ticketService from '../../services/ticketService';
 
 // Components
 import SideNavbar from "../SideNavbar/SideNavbar";
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import Navbar from "../Navbar/Navbar";
-import MyTickets from "../MyTickets/MyTickets"; // Import MyTickets
-import TicketForm from "../TicketForm/TicketForm"; // Import TicketForm
+import MyTickets from "../MyTickets/MyTickets";
+import TicketForm from "../TicketForm/TicketForm";
 
 // CSS
 import "./Dashboard.css";
@@ -16,9 +17,46 @@ const Dashboard = () => {
     const [toggleState, setToggleState] = useState(1);
     const user = useContext(AuthedUserContext);
 
+    const [tickets, setTickets] = useState([]);
+    const [loadingTickets, setLoadingTickets] = useState(true);
+    const [ticketError, setTicketError] = useState(null);
+
     const toggleTab = (index) => {
         setToggleState(index);
     };
+
+    const fetchUserTickets = async () => {
+        if (user && user.role !== 'admin') { 
+            try {
+                setLoadingTickets(true);
+                const userTickets = await ticketService.getMyTickets();
+                setTickets(userTickets);
+                setTicketError(null);
+            } catch (error) {
+                setTicketError('Failed to fetch tickets.');
+                setTickets([]);
+            } finally {
+                setLoadingTickets(false);
+            }
+        } else {
+            setTickets([]); 
+            setLoadingTickets(false);
+        }
+    };
+
+    // fetching tickets when component mounts to be able to display them as tables
+    useEffect(() => {
+        fetchUserTickets();
+    }, [user]);
+
+
+    const handleTicketCreated = () => {
+        fetchUserTickets();
+        toggleTab(2);
+    };
+
+    // decided to dynamically render the number of opened tickets and then pass it as a prop to use rdashboard
+    const openTicketsCount = tickets.filter(ticket => ticket.status === 'Open').length;
 
     return (
         <div className="flex">
@@ -101,7 +139,7 @@ const Dashboard = () => {
                     ) : (
                         toggleState === 1 && (
                             <div>
-                            <UserDashboardCard />
+                                <UserDashboardCard openTicketsCount={openTicketsCount} />
                             </div>
                         )
                         )}
@@ -118,7 +156,12 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 2 && (
-                            <MyTickets /> // Render MyTickets here
+
+                            <MyTickets 
+                                tickets={tickets} 
+                                loading={loadingTickets} 
+                                error={ticketError} 
+                            /> 
                         )
                         )}
 
@@ -134,7 +177,8 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 3 && (
-                            <TicketForm /> // Render TicketForm here
+                            // Pass callback down to TicketForm
+                            <TicketForm onTicketCreated={handleTicketCreated} /> 
                         )
                         )}
 

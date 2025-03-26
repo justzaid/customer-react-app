@@ -160,5 +160,6 @@ export {
   deleteReview,
   updateReview,
   getMyTickets,
+  getTickets
 
 };

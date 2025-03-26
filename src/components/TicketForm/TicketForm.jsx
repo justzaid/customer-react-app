@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import * as ticketService from '../../services/ticketService';
 
-const TicketForm = () => {
+// Accept onTicketCreated prop from Dashboard
+const TicketForm = ({ onTicketCreated }) => { 
   const categories = [
     'Delayed Flight', 'Canceled Flight', 'Missed Connection', 'Lost Baggage',
     'Damaged Baggage', 'Delayed Baggage', 'Incorrect Booking Details',
@@ -33,12 +34,20 @@ const TicketForm = () => {
     setIsSubmitting(true);
 
     try {
-      const newTicket = await ticketService.create(formData); 
+      const newTicket = await ticketService.create(formData);
       if (newTicket && newTicket.subject) {
         setSuccessMessage(`Ticket "${newTicket.subject}" created successfully!`);
+        // Call the callback function passed from Dashboard
+        if (onTicketCreated) {
+          onTicketCreated(); 
+        }
       } else {
         setSuccessMessage('Ticket submitted successfully!');
         console.warn('Ticket creation response might be missing details:', newTicket);
+        // Still call the callback even if details are missing, as the list might need refreshing
+        if (onTicketCreated) {
+          onTicketCreated();
+        }
       }
       setFormData({
         subject: '',

@@ -1,43 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import * as ticketService from '../../services/ticketService';
+// Receive props from Dashboard
+const MyTickets = ({ tickets, loading, error }) => {
 
-
-const MyTickets = () => {
-  const [tickets, setTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchTickets();
-  }, []);
-
-  const fetchTickets = async () => {
-    try {
-      setLoading(true);
-
-      const userTickets = await ticketService.getMyTickets(); 
-      setTickets(userTickets);
-      setError(null);
-    } catch (err) {
-      console.error("Error fetching tickets:", err);
-      setError(err.message || 'Failed to fetch tickets.');
-      setTickets([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // dummy view button for now
   const handleViewClick = (ticketId) => {
     console.log("View ticket:", ticketId);
   };
-
-
-  const displayCustomer = (customer) => {
-    if (!customer) return 'N/A';
-    return customer.username || customer.email || customer._id;
-  };
-  
 
   const displayAssignedTo = (agent) => {
       if (!agent) return 'TBA';
@@ -62,7 +32,6 @@ const MyTickets = () => {
           <table className="min-w-full bg-white border border-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Customer</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Subject</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Description</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Category</th>
@@ -74,7 +43,6 @@ const MyTickets = () => {
             <tbody className="divide-y divide-gray-200">
               {tickets.map((ticket) => (
                 <tr key={ticket._id} className="hover:bg-gray-50">
-                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{displayCustomer(ticket.customerId)}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{ticket.subject}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm max-w-xs truncate" title={ticket.description}>{ticket.description}</td> 
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{ticket.category}</td>
