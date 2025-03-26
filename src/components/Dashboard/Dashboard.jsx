@@ -57,6 +57,9 @@ const Dashboard = () => {
 
     // decided to dynamically render the number of opened tickets and then pass it as a prop to use rdashboard
     const openTicketsCount = tickets.filter(ticket => ticket.status === 'Open').length;
+    const repliedTicketsCount = tickets.filter(ticket => ticket.status === 'In progress').length;
+    const closedTicketsCount = tickets.filter(ticket => ticket.status === 'Closed').length;
+    const resolvedTicketsCount = tickets.filter(ticket => ticket.status === 'Resolved').length;
 
     // Function to switch to the My Tickets tab (index 2)
     const switchToMyTicketsTab = () => {
@@ -147,7 +150,11 @@ const Dashboard = () => {
                             <div>
                                 <UserDashboardCard 
                                     openTicketsCount={openTicketsCount} 
-                                    onViewOpenTickets={switchToMyTicketsTab} 
+                                    viewOpenTickets={switchToMyTicketsTab}
+                                    closedTicketsCount={closedTicketsCount}
+                                    resolvedTicketsCount={resolvedTicketsCount}
+                                    repliedTicketsCount={repliedTicketsCount}
+
                                 />
                             </div>
                         )

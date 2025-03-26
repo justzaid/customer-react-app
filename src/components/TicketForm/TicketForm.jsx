@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as ticketService from '../../services/ticketService';
 
 // Accept onTicketCreated prop from Dashboard
-const TicketForm = ({ onTicketCreated }) => { 
+const TicketForm = ({ onTicketCreated }) => {
   const categories = [
     'Delayed Flight', 'Canceled Flight', 'Missed Connection', 'Lost Baggage',
     'Damaged Baggage', 'Delayed Baggage', 'Incorrect Booking Details',
@@ -39,7 +39,7 @@ const TicketForm = ({ onTicketCreated }) => {
         setSuccessMessage(`Ticket "${newTicket.subject}" created successfully!`);
         // Call the callback function passed from Dashboard
         if (onTicketCreated) {
-          onTicketCreated(); 
+          onTicketCreated();
         }
       } else {
         setSuccessMessage('Ticket submitted successfully!');
@@ -55,7 +55,7 @@ const TicketForm = ({ onTicketCreated }) => {
         description: '',
       });
     } catch (err) {
-      console.error("Error submitting ticket:", err);
+      console.error("Error submitting ticket:", error);
       setError(err.message || 'Failed to submit ticket. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -63,8 +63,8 @@ const TicketForm = ({ onTicketCreated }) => {
   };
 
   return (
-    <div className="ticket-form-container p-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Submit a New Ticket</h2>
+    <div className="ticket-form-container p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4">Submit a New Ticket</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
@@ -130,7 +130,7 @@ const TicketForm = ({ onTicketCreated }) => {
           </div>
         )}
 
-        <div className="text-center">
+        <div>
           <button
             type="submit"
             disabled={isSubmitting}
