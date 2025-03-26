@@ -151,6 +151,24 @@ const getTickets = async () => {
   }
 };
 
+const getTicketById = async (ticketId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/my-tickets/${ticketId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    throw error;
+  }
+};
+
 export {
   index,
   create,
@@ -160,6 +178,6 @@ export {
   deleteReview,
   updateReview,
   getMyTickets,
-  getTickets
-
+  getTickets,
+  getTicketById
 };

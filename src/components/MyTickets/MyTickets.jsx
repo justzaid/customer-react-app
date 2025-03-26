@@ -1,4 +1,5 @@
-import React, { useState } from 'react'; // Import useState
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Receive props from Dashboard
 const MyTickets = ({ tickets, loading, error }) => {
@@ -10,9 +11,10 @@ const MyTickets = ({ tickets, loading, error }) => {
     setStatusFilter(e.target.value);
   };
 
-  // Dummy view button for now
+  const navigate = useNavigate();
+
   const handleViewClick = (ticketId) => {
-    console.log("View ticket:", ticketId);
+    navigate(`/tickets/${ticketId}`);
   };
 
   const displayAssignedTo = (agent) => {

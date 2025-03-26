@@ -13,6 +13,8 @@ import Dashboard from './components/Dashboard/Dashboard'
 import SigninForm from './components/SigninForm/SigninForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Navbar from './components/Navbar/Navbar';
+import SideNavbar from './components/SideNavbar/SideNavbar';
+import TicketDetails from './components/TicketDetails/TicketDetails';
 
 export const AuthedUserContext = createContext(null);
 
@@ -38,6 +40,15 @@ const App = () => {
             // Protected routes
             <>
               <Route path="/dashboard" element={<Dashboard setUser={setUser} handleSignout={handleSignout}/>} />
+              <Route path="/tickets/:id" element={
+                <div className="flex">
+                  <SideNavbar />
+                  <div className="p-6 bg-gray-100 min-h-screen flex-1">
+                    <Navbar />
+                    <TicketDetails />
+                  </div>
+                </div>
+              } />
               <Route path="/" element={<Navigate to="/dashboard" replace />} /> 
               <Route path="/signin" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
