@@ -1,10 +1,15 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 
 const getUser = () => {
-  const token = localStorage.getItem('token');
-  if (!token) return null;
-  const user = JSON.parse(atob(token.split('.')[1]));
-  return user;
+  try{
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const user = JSON.parse(atob(token.split('.')[1]));
+    return user;
+  }catch (err){
+    return null
+  }
+
 };
 
 const signup = async (formData) => {
