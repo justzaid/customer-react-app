@@ -47,11 +47,11 @@ const SigninForm = (props) => {
       };
 
     return (
-        <MDBContainer className="my-5">
+        <MDBContainer className="my-20 max-w-7xl">
             <MDBCard>
                 <MDBRow className='g-0'>
-                <MDBCol md='5'>
-                    <MDBCardImage src='https://images.pexels.com/photos/8867246/pexels-photo-8867246.jpeg' alt="login form image" className='rounded-start w-100 h-100'/>
+                    <MDBCol md='4'>
+                      <MDBCardImage src='https://images.pexels.com/photos/8867246/pexels-photo-8867246.jpeg' alt="login form image" className='rounded-start w-100 h-100'/>
                     </MDBCol>
 
                     <MDBCol md='6'>

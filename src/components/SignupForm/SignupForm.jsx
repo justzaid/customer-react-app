@@ -55,14 +55,14 @@ const SignupForm = (props) => {
     };
     
     return (
-        <MDBContainer className="my-5">
+        <MDBContainer className="my-20 max-w-7xl">
             <MDBCard>
-                <MDBRow className='g-0'>
-                    <MDBCol md='5'>
+                <MDBRow className='g-3'>
+                    <MDBCol md='4'>
                         <MDBCardImage src='https://images.unsplash.com/photo-1628445419644-13f0a9f0a9c0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt="Signup form image" className='rounded-start w-100 h-100'/>
                     </MDBCol>
 
-                    <MDBCol md='6'>
+                    <MDBCol md='5'>
                         <MDBCardBody className='d-flex flex-column'>
 
                         <div className='d-flex flex-row mt-2'>
