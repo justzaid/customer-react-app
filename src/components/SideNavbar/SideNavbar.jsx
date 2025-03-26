@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link
-import { FaHome, FaClipboardList, FaFileAlt, FaCogs, FaUsers, FaFileAlt as FaKnowledgeBase } from "react-icons/fa";
+import { FaHome, FaClipboardList, FaFileAlt, FaCogs, FaUsers, FaFileAlt as FaKnowledgeBase, FaPersonBooth, FaUser, FaRegUser, FaUserAlt } from "react-icons/fa";
 
 const SideNavbar = () => {
     return (
@@ -21,6 +21,7 @@ const SideNavbar = () => {
                             <FaUsers /> Support Agents
                         </Link>
                     </li>
+                    <li className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"><FaUserAlt /> My profile</li>
                 </ul>
         </div>
   );

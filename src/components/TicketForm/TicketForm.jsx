@@ -74,7 +74,7 @@ const TicketForm = ({ onTicketCreated }) => {
         result = await ticketService.update(id, formData);
         if (result && result._id) {
           setSuccessMessage(`Ticket "${result.subject}" updated successfully!`);
-          setTimeout(() => navigate(`/tickets/${id}`), 1500);
+          setTimeout(() => navigate(`/tickets/${id}`), 1000);
         } else {
           setError('Failed to update ticket. Response was unexpected.');
         }
@@ -108,11 +108,11 @@ const TicketForm = ({ onTicketCreated }) => {
   }
 
   return (
-    <div className="ticket-form-container p-6 bg-white rounded-lg shadow-md max-w-2xl mx-auto mt-10">
-      <h2 className="text-2xl font-semibold mb-6 text-center">
+    <div className="ticket-form-container p-6 bg-white rounded-lg shadow-md mt-10">
+      <h2 className="text-2xl font-semibold mb-5">
         {isEditMode ? 'Edit Ticket' : 'Submit a New Ticket'}
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="max-w-2xl">
         <div className="mb-4">
           <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
             Subject
@@ -151,7 +151,7 @@ const TicketForm = ({ onTicketCreated }) => {
           </select>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-5">
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
             Description
           </label>
@@ -180,7 +180,7 @@ const TicketForm = ({ onTicketCreated }) => {
           </div>
         )}
 
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-start gap-3">
           {isEditMode && (
              <button
                 type="button"
