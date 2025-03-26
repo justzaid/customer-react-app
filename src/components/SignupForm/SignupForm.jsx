@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom'
 import * as authService from '../../services/authService'
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './SignupForm.css'
 
 import {
