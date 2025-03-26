@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import * as ticketService from '../../services/ticketService';
-// Receive props from Dashboard
+import React, { useState } from 'react';
+
 const MyTickets = ({ tickets, loading, error }) => {
 
+  const [statusFilter, setStatusFilter] = useState('All'); 
 
-  // dummy view button for now
+
+  const handleFilterChange = (event) => {
+    setStatusFilter(event.target.value);
+  };
+
+  // Dummy view button for now
   const handleViewClick = (ticketId) => {
     console.log("View ticket:", ticketId);
   };
@@ -14,6 +19,14 @@ const MyTickets = ({ tickets, loading, error }) => {
       return agent.username || agent.email || agent._id;
   }
 
+  // Filter tickets based on the selected status
+  const filteredTickets = tickets.filter(ticket => {
+    if (statusFilter === 'All') {
+      return true;
+    }
+    return ticket.status === statusFilter;
+  });
+
   if (loading) {
     return <div className="p-4">Loading tickets...</div>;
   }
@@ -22,11 +35,34 @@ const MyTickets = ({ tickets, loading, error }) => {
     return <div className="p-4 text-red-600">Error: {error}</div>;
   }
 
+ // All status is used to just return everything instead of using open 
+  const statuses = ['All', 'Open', 'In progress', 'Resolved', 'Closed'];
+
   return (
     <div className="my-tickets-container p-4">
-      <h2 className="text-2xl font-semibold mb-4">My Tickets</h2>
-      {tickets.length === 0 ? (
-        <p>You have no tickets.</p>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-semibold">My Tickets</h2>
+        <div className="relative">
+          <select
+            value={statusFilter}
+            onChange={handleFilterChange}
+            className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
+            {statuses.map(status => (
+              <option key={status} value={status}>
+                {status === 'All' ? 'Filter by Status' : status} 
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      {filteredTickets.length === 0 ? ( 
+        // conditionally render what kind of status the user sees dependsing on opened tab
+        <p>{statusFilter === 'All' ? 'You have no tickets.' : `You have no ${statusFilter.toLowerCase()} tickets.`}</p>
       ) : (
         <div className="overflow-x-auto shadow-md rounded-lg">
           <table className="min-w-full bg-white border border-gray-200">
@@ -41,7 +77,7 @@ const MyTickets = ({ tickets, loading, error }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {tickets.map((ticket) => (
+              {filteredTickets.map((ticket) => ( 
                 <tr key={ticket._id} className="hover:bg-gray-50">
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{ticket.subject}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm max-w-xs truncate" title={ticket.description}>{ticket.description}</td> 
@@ -61,8 +97,7 @@ const MyTickets = ({ tickets, loading, error }) => {
                     <button
                       onClick={() => handleViewClick(ticket._id)}
                       className="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    >
-                      View
+                    >View
                     </button>
                   </td>
                 </tr>
