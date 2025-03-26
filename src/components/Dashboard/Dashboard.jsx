@@ -6,6 +6,8 @@ import SideNavbar from "../SideNavbar/SideNavbar";
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import Navbar from "../Navbar/Navbar";
+import MyTickets from "../MyTickets/MyTickets"; // Import MyTickets
+import TicketForm from "../TicketForm/TicketForm"; // Import TicketForm
 
 // CSS
 import "./Dashboard.css";
@@ -116,7 +118,7 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 2 && (
-                            <p>Content</p>
+                            <MyTickets /> // Render MyTickets here
                         )
                         )}
 
@@ -132,7 +134,7 @@ const Dashboard = () => {
                         )
                         ) : (
                         toggleState === 3 && (
-                            <p>content</p>
+                            <TicketForm /> // Render TicketForm here
                         )
                         )}
 

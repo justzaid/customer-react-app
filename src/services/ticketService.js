@@ -11,9 +11,28 @@ const index = async () => {
   }
 };
 
-const show = async (ticketId) => {
+
+const getMyTickets = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/${ticketId}`, {
+
+    const res = await fetch(`${BASE_URL}/my-tickets`, { 
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    if (!res.ok) {
+
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching user's tickets:", error);
+    throw error;
+  }
+};
+
+const getAllTickets_maybe_admin = async () => { 
+  try {
+    const res = await fetch(BASE_URL, { 
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     return res.json();
@@ -134,15 +153,12 @@ const getTickets = async () => {
 
 export {
   index,
-  show,
   create,
   createReview,
   deleteTicket,
   update,
   deleteReview,
   updateReview,
-  getTickets,
+  getMyTickets,
+
 };
-
-
-

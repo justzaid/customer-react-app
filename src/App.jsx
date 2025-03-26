@@ -1,9 +1,11 @@
 // Hooks
-import { useState, createContext, useEffect } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useState, createContext, useEffect } from 'react';
+
+// Import Navigate for redirects
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'; 
 
 // CSS
-import './App.css'
+import './App.css';
 
 
 // Components
@@ -33,13 +35,20 @@ const App = () => {
       <AuthedUserContext.Provider value={user}>
         <Routes>
           {user ? (
+            // Protected routes
             <>
-            <Route path="/dashboard" element={<Dashboard setUser={setUser} handleSignout={handleSignout}/>} />
+              <Route path="/dashboard" element={<Dashboard setUser={setUser} handleSignout={handleSignout}/>} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} /> 
+              <Route path="/signin" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
             </>
           ) : (
+            // -Ubprotected routes
             <>
-            <Route path="/signin" element={<SigninForm setUser={setUser}/>} />
-            <Route path="/signup" element={<SignupForm setUser={setUser}/>} />
+              <Route path="/signin" element={<SigninForm setUser={setUser}/>} />
+              <Route path="/signup" element={<SignupForm setUser={setUser}/>} />
+              <Route path="/" element={<Navigate to="/signin" replace />} /> 
+              <Route path="/dashboard" element={<Navigate to="/signin" replace />} /> 
             </>
           )}
         </Routes>
