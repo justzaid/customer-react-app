@@ -39,8 +39,7 @@ const TicketForm = ({ onTicketCreated }) => {
             category: categories.includes(ticketData.category) ? ticketData.category : categories[0],
             description: ticketData.description || '',
           });
-        } catch (err) {
-          console.error("Error fetching ticket for edit:", err);
+        } catch (error) {
           setError(err.message || 'Failed to load ticket data.');
         } finally {
           setIsFetching(false);
@@ -71,7 +70,7 @@ const TicketForm = ({ onTicketCreated }) => {
     try {
       let result;
       if (isEditMode) {
-        // --- Update
+        // --- Update Logic ---
         result = await ticketService.update(id, formData);
         if (result && result._id) {
           setSuccessMessage(`Ticket "${result.subject}" updated successfully!`);
@@ -80,7 +79,7 @@ const TicketForm = ({ onTicketCreated }) => {
           setError('Failed to update ticket. Response was unexpected.');
         }
       } else {
-        // --- Create
+        // --- Create Logic ---
         result = await ticketService.create(formData);
         if (result && result.subject) {
           setSuccessMessage(`Ticket "${result.subject}" created successfully!`);
@@ -97,13 +96,13 @@ const TicketForm = ({ onTicketCreated }) => {
         }
       }
     } catch (error) {
-      console.error(`Error ${isEditMode ? 'updating' : 'submitting'} ticket:`, error);
-      setError(err.message || `Failed to ${isEditMode ? 'update' : 'submit'} ticket. Please try again.`);
+      setError(error.message || `Failed to ${isEditMode ? 'update' : 'submit'} ticket. Please try again.`);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Display loading indicator while fetching data in edit mode
   if (isFetching) {
     return <div className="p-4">Loading ticket data...</div>;
   }

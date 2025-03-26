@@ -16,6 +16,7 @@ import Navbar from './components/Navbar/Navbar';
 import SideNavbar from './components/SideNavbar/SideNavbar';
 import TicketDetails from './components/TicketDetails/TicketDetails';
 import TicketForm from './components/TicketForm/TicketForm';
+import SupportAgents from './components/SupportAgents/SupportAgents';
 
 export const AuthedUserContext = createContext(null);
 
@@ -33,51 +34,41 @@ const App = () => {
     navigate('/signin');
   };
 
+  const navbarHeightClass = 'pt-12';
+
   return (
-    <>
-      <AuthedUserContext.Provider value={user}>
+    <AuthedUserContext.Provider value={user}>
+      {user && (
+        <>
+          <SideNavbar />
+          <Navbar handleSignout={handleSignout} />
+        </>
+      )}
+      <main className={user ? `ml-64 ${navbarHeightClass}` : ''}>
         <Routes>
           {user ? (
-            // Protected routes
             <>
-              <Route path="/dashboard" element={<Dashboard setUser={setUser} handleSignout={handleSignout}/>} />
-              <Route path="/tickets/:id" element={
-                <div className="flex">
-                  <SideNavbar />
-                  <div className="p-6 bg-gray-100 min-h-screen flex-1">
-                    <Navbar />
-                    <TicketDetails />
-                  </div>
-                </div>
-              } />
-              <Route path="/tickets/:id/edit" element={
-                <div className="flex">
-                  <SideNavbar />
-                  <div className="p-6 bg-gray-100 min-h-screen flex-1">
-                    <Navbar />
-                    <TicketForm />
-                  </div>
-                </div>
-              } />
+              <Route path="/dashboard" element={<div className="p-6"><Dashboard setUser={setUser} handleSignout={handleSignout}/></div>} />
+              <Route path="/tickets/:id" element={<div className="p-6"><TicketDetails /></div>} />
+              <Route path="/tickets/:id/edit" element={<div className="p-6"><TicketForm /></div>} />
+              <Route path="/support-agents" element={<SupportAgents />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signin" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
             </>
           ) : (
-            // -Ubprotected routes
+            // Unprotected routes
             <>
               <Route path="/signin" element={<SigninForm setUser={setUser}/>} />
               <Route path="/signup" element={<SignupForm setUser={setUser}/>} />
-              <Route path="/" element={<Navigate to="/signin" replace />} /> 
-              <Route path="/dashboard" element={<Navigate to="/signin" replace />} /> 
+              <Route path="/" element={<Navigate to="/signin" replace />} />
+              <Route path="/dashboard" element={<Navigate to="/signin" replace />} />
             </>
           )}
         </Routes>
-          {user ? <Navbar handleSignout={handleSignout}/> : ''}
-      </AuthedUserContext.Provider>
-    </>
-
-  )
+      </main>
+    </AuthedUserContext.Provider>
+  );
 }
 
 export default App;

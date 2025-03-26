@@ -37,7 +37,19 @@ const TicketDetails = () => {
   const handleAddReview = async (reviewFormData) => {
     try {
       const newReview = await ticketService.createReview(id, reviewFormData);
-      fetchTicket();
+      setTicket(prevTicket => {
+        const updatedReviews = Array.isArray(prevTicket.reviews) 
+          ? [...prevTicket.reviews, newReview] 
+          : [newReview];
+        
+        updatedReviews.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        return {
+          ...prevTicket,
+          reviews: updatedReviews,
+        };
+      });
+      setError(null);
     } catch (error) {
       console.error(error);
       setError(`Failed to submit review: ${error.message}. Please try again.`);
@@ -76,7 +88,7 @@ const TicketDetails = () => {
   ];
 
   return (
-    <div className="ticket-details p-6 mt-10">
+    <div className="ticket-details p-6 mt-1">
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => navigate('/dashboard')}
@@ -101,7 +113,6 @@ const TicketDetails = () => {
           </div>
         )}
       </div>
-
       <h2 className="text-2xl font-bold mt-10 mb-3">Ticket Details</h2>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
@@ -176,6 +187,7 @@ const TicketDetails = () => {
       <div className="mt-8">
         <ReviewForm onSubmit={handleAddReview} />
       </div>
+
     </div>
   );
 };

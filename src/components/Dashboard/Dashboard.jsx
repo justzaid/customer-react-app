@@ -75,7 +75,7 @@ const Dashboard = () => {
 
                 <Navbar />
 
-                <h2 className="text-2xl font-semibold mt-20 mb-5">Welcome back, {user.username}</h2>
+                <h2 className="text-2xl font-semibold mt-10 mb-5">Welcome back, {user.username}</h2>
                 
                 <div className="bg-white rounded-lg shadow-md">
                     <div className="tabs-container">
