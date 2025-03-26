@@ -7,7 +7,11 @@ const SideNavbar = () => {
         <div className="fixed top-0 left-0 w-64 bg-gray-900 text-white h-screen p-4 z-20">
             <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
                 <ul>
-                    <li className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"><FaHome /> Home</li>
+                    <li className="p-2 hover:bg-gray-700 rounded">
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                        <FaHome /> Home
+                    </Link>
+                    </li>
                     <li className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"><FaClipboardList /> Support Tickets</li>
                     <li className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"><FaKnowledgeBase /> Knowledge Base</li>
                     <li className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded"><FaFileAlt /> Website</li>
