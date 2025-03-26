@@ -3,8 +3,7 @@ import { Card, CardContent } from "../Card/Card";
 import { FaFileAlt, FaReplyAll } from "react-icons/fa";
 import { MdNotificationsActive, MdLiveHelp  } from "react-icons/md";
 
-const UserDashboardCard = ({ openTicketsCount = 0 }) => {
-
+const UserDashboardCard = ({ openTicketsCount = 0, onViewOpenTickets }) => { 
   const dynamicCardData = [
     { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: openTicketsCount, text: "Open Tickets" }, 
     { id: 2, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: 2, text: "Replied Tickets" }, // Static placeholder
@@ -28,9 +27,9 @@ const UserDashboardCard = ({ openTicketsCount = 0 }) => {
             </CardContent>
             </Card>
             <div className="mt-2 text-left">
-                <a href="#" style={{ color: card.color.replace("bg-[", "").replace("]", "") }}>
+                <button onClick={onViewOpenTickets} style={{ color: card.color.replace("bg-[", "").replace("]", "") }}>
                 View Details
-                </a>
+                </button>
                 <hr className="my-2 border-grey-300" />
           </div>
         </div>
