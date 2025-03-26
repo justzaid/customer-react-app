@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Import useState
 
+// Receive props from Dashboard
 const MyTickets = ({ tickets, loading, error }) => {
+  // State for the status filter dropdown
+  const [statusFilter, setStatusFilter] = useState('All');
 
-  const [statusFilter, setStatusFilter] = useState('All'); 
-
-
-  const handleFilterChange = (event) => {
-    setStatusFilter(event.target.value);
+  // Handler for dropdown change
+  const handleFilterChange = (e) => {
+    setStatusFilter(e.target.value);
   };
 
   // Dummy view button for now
@@ -22,9 +23,9 @@ const MyTickets = ({ tickets, loading, error }) => {
   // Filter tickets based on the selected status
   const filteredTickets = tickets.filter(ticket => {
     if (statusFilter === 'All') {
-      return true;
+      return true; // Show all tickets if 'All' is selected
     }
-    return ticket.status === statusFilter;
+    return ticket.status === statusFilter; // Otherwise, filter by status
   });
 
   if (loading) {
@@ -35,7 +36,7 @@ const MyTickets = ({ tickets, loading, error }) => {
     return <div className="p-4 text-red-600">Error: {error}</div>;
   }
 
- // All status is used to just return everything instead of using open 
+  // Define possible statuses for the dropdown
   const statuses = ['All', 'Open', 'In progress', 'Resolved', 'Closed'];
 
   return (
@@ -50,7 +51,7 @@ const MyTickets = ({ tickets, loading, error }) => {
           >
             {statuses.map(status => (
               <option key={status} value={status}>
-                {status === 'All' ? 'Filter by Status' : status} 
+                {status === 'All' ? 'Filter by Status' : status}
               </option>
             ))}
           </select>
@@ -60,8 +61,7 @@ const MyTickets = ({ tickets, loading, error }) => {
         </div>
       </div>
 
-      {filteredTickets.length === 0 ? ( 
-        // conditionally render what kind of status the user sees dependsing on opened tab
+      {filteredTickets.length === 0 ? (
         <p>{statusFilter === 'All' ? 'You have no tickets.' : `You have no ${statusFilter.toLowerCase()} tickets.`}</p>
       ) : (
         <div className="overflow-x-auto shadow-md rounded-lg">
@@ -71,22 +71,24 @@ const MyTickets = ({ tickets, loading, error }) => {
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Subject</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Description</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Category</th>
+                <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Date Posted</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Assigned To</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {filteredTickets.map((ticket) => ( 
+              {filteredTickets.map((ticket) => (
                 <tr key={ticket._id} className="hover:bg-gray-50">
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{ticket.subject}</td>
-                  <td className="py-3 px-4 border-b border-gray-200 text-sm max-w-xs truncate" title={ticket.description}>{ticket.description}</td> 
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm max-w-xs truncate" title={ticket.description}>{ticket.description}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{ticket.category}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm whitespace-nowrap">{new Date(ticket.createdAt).toLocaleDateString()}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">
                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                          ticket.status === 'Open' ? 'bg-green-100 text-green-800' :
                          ticket.status === 'In progress' ? 'bg-yellow-100 text-yellow-800' :
-                         ticket.status === 'Resolved' ? 'bg-blue-100 text-blue-800' : 
+                         ticket.status === 'Resolved' ? 'bg-blue-100 text-blue-800' :
                          'bg-gray-100 text-gray-800'
                      }`}>
                          {ticket.status}
@@ -97,7 +99,8 @@ const MyTickets = ({ tickets, loading, error }) => {
                     <button
                       onClick={() => handleViewClick(ticket._id)}
                       className="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    >View
+                    >
+                      View
                     </button>
                   </td>
                 </tr>
