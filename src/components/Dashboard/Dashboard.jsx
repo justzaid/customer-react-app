@@ -6,7 +6,6 @@ import * as ticketService from '../../services/ticketService';
 import SideNavbar from "../SideNavbar/SideNavbar";
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
-import Navbar from "../Navbar/Navbar";
 import MyTickets from "../MyTickets/MyTickets";
 import TicketForm from "../TicketForm/TicketForm";
 
@@ -72,8 +71,6 @@ const Dashboard = () => {
             <SideNavbar />
             
             <div className="p-6 bg-gray-100 min-h-screen flex-1">
-
-                <Navbar />
 
                 <h2 className="text-2xl font-semibold mt-10 mb-5">Welcome back, {user.username}</h2>
                 

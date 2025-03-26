@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link
-import { FaHome, FaClipboardList, FaFileAlt, FaCogs, FaUsers, FaFileAlt as FaKnowledgeBase, FaPersonBooth, FaUser, FaRegUser, FaUserAlt } from "react-icons/fa";
+import { FaHome, FaClipboardList, FaFileAlt, FaCogs, FaUsers, FaFileAlt as FaKnowledgeBase, FaUserAlt } from "react-icons/fa";
 
 const SideNavbar = () => {
     return (
