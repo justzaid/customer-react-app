@@ -30,14 +30,20 @@ const getMyTickets = async () => {
   }
 };
 
-const getAllTickets_maybe_admin = async () => { 
+// Function specifically for admins to get all tickets
+const getAllTickets = async () => {
   try {
-    const res = await fetch(BASE_URL, { 
+    const res = await fetch(`${BASE_URL}/all`, { // Targeting the new admin endpoint
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
     return res.json();
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching all tickets:", error);
+    throw error;
   }
 };
 
@@ -178,6 +184,7 @@ export {
   deleteReview,
   updateReview,
   getMyTickets,
-  getTickets,
-  getTicketById
+  getTickets, // Note: Consider if this is still needed or should be admin-only
+  getTicketById,
+  getAllTickets // Export the new function
 };

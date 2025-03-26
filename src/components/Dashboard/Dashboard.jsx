@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthedUserContext } from "../../App";
-import * as ticketService from '../../services/ticketService';
+// Import specific functions needed
+import { getMyTickets, getAllTickets } from '../../services/ticketService'; 
 
 // Components
-import SideNavbar from "../SideNavbar/SideNavbar";
+// SideNavbar is rendered in App.jsx, remove from here
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import MyTickets from "../MyTickets/MyTickets";
+import AllTickets from "../AllTickets/AllTickets"; // Import AllTickets
 import TicketForm from "../TicketForm/TicketForm";
 
 // CSS
@@ -24,34 +26,41 @@ const Dashboard = () => {
         setToggleState(index);
     };
 
-    const fetchUserTickets = async () => {
-        if (user && user.role !== 'admin') { 
-            try {
-                setLoadingTickets(true);
-                const userTickets = await ticketService.getMyTickets();
-                setTickets(userTickets);
-                setTicketError(null);
-            } catch (error) {
-                setTicketError('Failed to fetch tickets.');
-                setTickets([]);
-            } finally {
-                setLoadingTickets(false);
+    // Renamed function to fetch appropriate tickets based on role
+    const fetchTickets = async () => {
+        if (!user) return; // Exit if user is not defined
+
+        setLoadingTickets(true);
+        setTicketError(null);
+        setTickets([]); // Clear previous tickets
+
+        try {
+            let fetchedTickets;
+            if (user.role === 'admin') {
+                // Fetch all tickets for admin
+                fetchedTickets = await getAllTickets(); 
+            } else {
+                // Fetch only user's tickets
+                fetchedTickets = await getMyTickets();
             }
-        } else {
-            setTickets([]); 
+            setTickets(fetchedTickets);
+        } catch (error) {
+            console.error("Dashboard fetchTickets error:", error);
+            setTicketError(`Failed to fetch tickets: ${error.message || error}`);
+        } finally {
             setLoadingTickets(false);
         }
     };
 
-    // fetching tickets when component mounts to be able to display them as tables
+    // Fetch tickets when component mounts or user changes
     useEffect(() => {
-        fetchUserTickets();
-    }, [user]);
+        fetchTickets();
+    }, [user]); // Re-fetch if user context changes
 
 
     const handleTicketCreated = () => {
-        fetchUserTickets();
-        toggleTab(2);
+        fetchTickets();
+        toggleTab(2); // Switch to My Tickets / All Tickets tab
     };
 
     // decided to dynamically render the number of opened tickets and then pass it as a prop to use rdashboard
@@ -67,12 +76,9 @@ const Dashboard = () => {
 
 
     return (
-        <div className="flex">
-            <SideNavbar />
-            
-            <div className="p-6 bg-gray-100 min-h-screen flex-1">
-
-                <h2 className="text-2xl font-semibold mt-10 mb-5">Welcome back, {user.username}</h2>
+        // Remove the outer flex container and SideNavbar rendering
+        <div className="p-6 bg-gray-100 min-h-screen flex-1"> 
+            <h2 className="text-2xl font-semibold mt-10 mb-5">Welcome back, {user?.username || 'User'}</h2>
                 
                 <div className="bg-white rounded-lg shadow-md">
                     <div className="tabs-container">
@@ -158,24 +164,20 @@ const Dashboard = () => {
                         )}
 
 
-
-                        {user.role === "admin" ? (
-                        toggleState === 2 && (
-                            <div>
-                                <h2 className="text-xl font-bold">All Tickets</h2>
-                                <hr className="my-2" />
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
-                            </div>
-                        )
-                        ) : (
-                        toggleState === 2 && (
-
-                            <MyTickets 
-                                tickets={tickets} 
-                                loading={loadingTickets} 
-                                error={ticketError} 
-                            /> 
-                        )
+                        {toggleState === 2 && (
+                            user.role === "admin" ? (
+                                <AllTickets 
+                                    tickets={tickets} 
+                                    loading={loadingTickets} 
+                                    error={ticketError} 
+                                />
+                            ) : (
+                                <MyTickets 
+                                    tickets={tickets} 
+                                    loading={loadingTickets} 
+                                    error={ticketError} 
+                                /> 
+                            )
                         )}
 
 
@@ -214,8 +216,7 @@ const Dashboard = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+        </div> // Closing div for the main content area
     );
 };
 
