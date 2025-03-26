@@ -15,6 +15,7 @@ import SignupForm from './components/SignupForm/SignupForm'
 import Navbar from './components/Navbar/Navbar';
 import SideNavbar from './components/SideNavbar/SideNavbar';
 import TicketDetails from './components/TicketDetails/TicketDetails';
+import TicketForm from './components/TicketForm/TicketForm';
 
 export const AuthedUserContext = createContext(null);
 
@@ -49,7 +50,16 @@ const App = () => {
                   </div>
                 </div>
               } />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} /> 
+              <Route path="/tickets/:id/edit" element={
+                <div className="flex">
+                  <SideNavbar />
+                  <div className="p-6 bg-gray-100 min-h-screen flex-1">
+                    <Navbar />
+                    <TicketForm />
+                  </div>
+                </div>
+              } />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signin" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
             </>

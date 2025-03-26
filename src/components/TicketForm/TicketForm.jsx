@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as ticketService from '../../services/ticketService';
 
-// Accept onTicketCreated prop from Dashboard
 const TicketForm = ({ onTicketCreated }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
   const categories = [
     'Delayed Flight', 'Canceled Flight', 'Missed Connection', 'Lost Baggage',
     'Damaged Baggage', 'Delayed Baggage', 'Incorrect Booking Details',
@@ -19,52 +23,96 @@ const TicketForm = ({ onTicketCreated }) => {
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(null);
-    setSuccessMessage('');
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setSuccessMessage('');
-    setIsSubmitting(true);
-
-    try {
-      const newTicket = await ticketService.create(formData);
-      if (newTicket && newTicket.subject) {
-        setSuccessMessage(`Ticket "${newTicket.subject}" created successfully!`);
-        // Call the callback function passed from Dashboard
-        if (onTicketCreated) {
-          onTicketCreated();
+  // Fetch ticket data if in edit mode
+  useEffect(() => {
+    if (isEditMode) {
+      const fetchTicketData = async () => {
+        setIsFetching(true);
+        setError(null);
+        try {
+          const ticketData = await ticketService.getTicketById(id);
+          setFormData({
+            subject: ticketData.subject || '',
+            category: categories.includes(ticketData.category) ? ticketData.category : categories[0],
+            description: ticketData.description || '',
+          });
+        } catch (err) {
+          console.error("Error fetching ticket for edit:", err);
+          setError(err.message || 'Failed to load ticket data.');
+        } finally {
+          setIsFetching(false);
         }
-      } else {
-        setSuccessMessage('Ticket submitted successfully!');
-        console.warn('Ticket creation response might be missing details:', newTicket);
-        // Still call the callback even if details are missing, as the list might need refreshing
-        if (onTicketCreated) {
-          onTicketCreated();
-        }
-      }
+      };
+      fetchTicketData();
+    } else {
       setFormData({
         subject: '',
         category: categories[0],
         description: '',
       });
-    } catch (err) {
-      console.error("Error submitting ticket:", error);
-      setError(err.message || 'Failed to submit ticket. Please try again.');
+    }
+  }, [id, isEditMode]);
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+    setError(null);
+    setSuccessMessage('');
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+    setSuccessMessage('');
+    setIsLoading(true);
+
+    try {
+      let result;
+      if (isEditMode) {
+        // --- Update
+        result = await ticketService.update(id, formData);
+        if (result && result._id) {
+          setSuccessMessage(`Ticket "${result.subject}" updated successfully!`);
+          setTimeout(() => navigate(`/tickets/${id}`), 1500);
+        } else {
+          setError('Failed to update ticket. Response was unexpected.');
+        }
+      } else {
+        // --- Create
+        result = await ticketService.create(formData);
+        if (result && result.subject) {
+          setSuccessMessage(`Ticket "${result.subject}" created successfully!`);
+          if (onTicketCreated) {
+            onTicketCreated();
+          }
+          setFormData({
+            subject: '',
+            category: categories[0],
+            description: '',
+          });
+        } else {
+          setError('Failed to create ticket. Response was unexpected.');
+        }
+      }
+    } catch (error) {
+      console.error(`Error ${isEditMode ? 'updating' : 'submitting'} ticket:`, error);
+      setError(err.message || `Failed to ${isEditMode ? 'update' : 'submit'} ticket. Please try again.`);
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
+  if (isFetching) {
+    return <div className="p-4">Loading ticket data...</div>;
+  }
+
   return (
-    <div className="ticket-form-container p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Submit a New Ticket</h2>
+    <div className="ticket-form-container p-6 bg-white rounded-lg shadow-md max-w-2xl mx-auto mt-10">
+      <h2 className="text-2xl font-semibold mb-6 text-center">
+        {isEditMode ? 'Edit Ticket' : 'Submit a New Ticket'}
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
@@ -79,6 +127,7 @@ const TicketForm = ({ onTicketCreated }) => {
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="e.g., Flight Delay Compensation"
+            disabled={isLoading}
           />
         </div>
 
@@ -93,10 +142,11 @@ const TicketForm = ({ onTicketCreated }) => {
             onChange={handleChange}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+            disabled={isLoading}
           >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
               </option>
             ))}
           </select>
@@ -112,9 +162,10 @@ const TicketForm = ({ onTicketCreated }) => {
             value={formData.description}
             onChange={handleChange}
             required
-            rows="4"
+            rows="5"
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Please provide details about your issue..."
+            disabled={isLoading}
           ></textarea>
         </div>
 
@@ -130,13 +181,23 @@ const TicketForm = ({ onTicketCreated }) => {
           </div>
         )}
 
-        <div>
+        <div className="flex justify-end gap-3">
+          {isEditMode && (
+             <button
+                type="button"
+                onClick={() => navigate(`/tickets/${id}`)}
+                disabled={isLoading}
+                className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+          )}
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 ${isSubmitting ? 'cursor-not-allowed' : ''}`}
+            disabled={isLoading}
+            className={`px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 ${isLoading ? 'cursor-not-allowed' : ''}`}
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+            {isLoading ? 'Saving...' : (isEditMode ? 'Update Ticket' : 'Submit Ticket')}
           </button>
         </div>
       </form>

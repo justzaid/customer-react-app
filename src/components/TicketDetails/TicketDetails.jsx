@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthedUserContext } from '../../App';
 import * as ticketService from '../../services/ticketService';
 import ReviewForm from '../ReviewForm/ReviewForm';
 
 const TicketDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,8 +21,9 @@ const TicketDetails = () => {
       }
       setTicket(ticketData);
       setError(null);
-    } catch (err) {
-      setError('Failed to fetch ticket details');
+    } catch (error) {
+      console.error(error);
+      setError(`Failed to fetch ticket details: ${error.message}`);
       setTicket(null);
     } finally {
       setLoading(false);
@@ -37,7 +39,19 @@ const TicketDetails = () => {
       const newReview = await ticketService.createReview(id, reviewFormData);
       fetchTicket();
     } catch (error) {
-      setError('Failed to submit review. Please try again.');
+      console.error(error);
+      setError(`Failed to submit review: ${error.message}. Please try again.`);
+    }
+  };
+
+  // --- Delete Handler ---
+  const handleDelete = async () => {
+    try {
+      await ticketService.deleteTicket(id);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error(error);
+      setError(`Failed to delete ticket: ${error.message}`);
     }
   };
 
@@ -48,6 +62,8 @@ const TicketDetails = () => {
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
   };
+
+  const isOwner = user?._id === ticket?.customerId?._id;
 
   const ticketFields = [
     { label: 'Status', value: ticket.status },
@@ -60,7 +76,32 @@ const TicketDetails = () => {
   ];
 
   return (
-    <div className="ticket-details p-6">
+    <div className="ticket-details p-6 mt-10">
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+        >
+          &larr; Back to List
+        </button>
+        {isOwner && (
+          <div className="flex gap-2">
+            <Link
+              to={`/tickets/${id}/edit`}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            >
+              Edit
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
+
       <h2 className="text-2xl font-bold mt-10 mb-3">Ticket Details</h2>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
@@ -109,7 +150,6 @@ const TicketDetails = () => {
             </div>
           ))}
       </div>
-
       <div className="mt-8">
         <h3 className="text-xl font-semibold mb-4">Reviews</h3>
         {ticket.reviews && ticket.reviews.length > 0 ? (
@@ -136,7 +176,6 @@ const TicketDetails = () => {
       <div className="mt-8">
         <ReviewForm onSubmit={handleAddReview} />
       </div>
-
     </div>
   );
 };
