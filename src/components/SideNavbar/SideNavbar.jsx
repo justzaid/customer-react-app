@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"; 
-import { FaHome, FaClipboardList, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt, FaPlusCircle } from "react-icons/fa";
+import { FaHome, FaClipboardList, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt } from "react-icons/fa";
 import { MdLiveHelp } from "react-icons/md";
 import { AuthedUserContext } from "../../App";
 
@@ -25,11 +25,6 @@ const SideNavbar = () => {
                     <MdLiveHelp /> Quick Tips
                 </Link>
             </li>
-            <li className="p-2 hover:bg-gray-700 rounded">
-                <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
-                    <FaHeadset /> Live Support
-                </span>
-            </li>
         </>
     ) : (
         <>
@@ -37,11 +32,6 @@ const SideNavbar = () => {
                 <Link to="/dashboard" className="flex items-center gap-2">
                     <FaClipboardList /> My Tickets
                 </Link>
-            </li>
-            <li className="p-2 hover:bg-gray-700 rounded">
-                <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
-                    <FaHeadset /> Live Support
-                </span>
             </li>
         </>
     );
@@ -67,10 +57,24 @@ const SideNavbar = () => {
                     {navLinks} 
 
                     <li className="p-2 hover:bg-gray-700 rounded">
-                        <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
+                        <Link to="/profile" className="flex items-center gap-2">
                             <FaUserAlt /> My Profile
-                        </span>
+                        </Link>
                     </li>
+                    {user?.role === 'admin' && (
+                        <li className="p-2 hover:bg-gray-700 rounded">
+                            <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
+                                <FaHeadset /> Live Support
+                            </span>
+                        </li>
+                    )}
+                    {user?.role !== 'admin' && (
+                        <li className="p-2 hover:bg-gray-700 rounded">
+                            <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
+                                <FaHeadset /> Live Support
+                            </span>
+                        </li>
+                    )}
                 </ul>
         </div>
   );

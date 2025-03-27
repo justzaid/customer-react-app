@@ -19,6 +19,7 @@ import TicketForm from './components/TicketForm/TicketForm';
 import SupportAgents from './components/SupportAgents/SupportAgents';
 import MyAssignedTickets from './components/MyAssignedTickets/MyAssignedTickets';
 import QuickTips from './components/QuickTips/QuickTips';
+import ProfilePage from './components/ProfilePage/ProfilePage'; // Import ProfilePage
 
 export const AuthedUserContext = createContext(null);
 
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="/dashboard" element={<div className="p-6"><Dashboard setUser={setUser} handleSignout={handleSignout}/></div>} />
               <Route path="/tickets/:id" element={<div className="p-6"><TicketDetails /></div>} />
               <Route path="/tickets/:id/edit" element={<div className="p-6"><TicketForm /></div>} />
+              <Route path="/profile" element={<div className="p-6"><ProfilePage /></div>} /> {/* Add Profile Route */}
 
               {user.role === 'admin' && (
                 <>
@@ -85,6 +87,7 @@ const App = () => {
               <Route path="/support-agents" element={<Navigate to="/signin" replace />} />
               <Route path="/my-assigned-tickets" element={<Navigate to="/signin" replace />} />
               <Route path="/quick-tips" element={<Navigate to="/signin" replace />} />
+              <Route path="/profile" element={<Navigate to="/signin" replace />} /> {/* Redirect if not logged in */}
             </>
           )}
         </Routes>
