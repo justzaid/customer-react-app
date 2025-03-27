@@ -25,9 +25,9 @@ const MyTickets = ({ tickets, loading, error }) => {
   // Filter tickets based on the selected status
   const filteredTickets = tickets.filter(ticket => {
     if (statusFilter === 'All') {
-      return true; // Show all tickets if 'All' is selected
+      return true;
     }
-    return ticket.status === statusFilter; // Otherwise, filter by status
+    return ticket.status === statusFilter;
   });
 
   if (loading) {
@@ -91,6 +91,7 @@ const MyTickets = ({ tickets, loading, error }) => {
                          ticket.status === 'Open' ? 'bg-green-100 text-green-800' :
                          ticket.status === 'In progress' ? 'bg-yellow-100 text-yellow-800' :
                          ticket.status === 'Resolved' ? 'bg-blue-100 text-blue-800' :
+                         ticket.status === 'Closed' ? 'bg-red-100 text-red-800' :
                          'bg-gray-100 text-gray-800'
                      }`}>
                          {ticket.status}

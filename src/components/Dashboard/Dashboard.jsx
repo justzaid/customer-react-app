@@ -51,7 +51,7 @@ const Dashboard = () => {
     // Fetch tickets when component mounts or user changes
     useEffect(() => {
         fetchTickets();
-    }, [user]); // Re-fetch if user context changes
+    }, [user]);
 
 
     const handleTicketCreated = () => {
@@ -135,6 +135,7 @@ const Dashboard = () => {
                                         repliedTicketsCount={repliedTicketsCount}
                                         closedTicketsCount={closedTicketsCount}
                                         resolvedTicketsCount={resolvedTicketsCount}
+                                        switchToTab={toggleTab} // Pass the toggleTab function here
                                     />
                                 </div>
                             ) : (

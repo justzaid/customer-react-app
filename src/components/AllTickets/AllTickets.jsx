@@ -31,7 +31,7 @@ const AllTickets = ({ tickets, loading, error, onTicketAssigned }) => {
       }
     } catch (error) {
     } finally {
-      setAssigningTicketId(null); // Reset loading state
+      setAssigningTicketId(null);
     }
   };
 
