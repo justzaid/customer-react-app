@@ -19,6 +19,7 @@ You can access the deployed application and the project's Trello board using the
 
 -   MDB React UI Kit
 -   Project design inspiration [www.phpscriptdemos.com](https://www.phpscriptdemos.com/support-desk/admin/index.php)
+-   pexel images [Royalty free images](https://www.pexels.com/)
 
 ## Technologies Used
 
