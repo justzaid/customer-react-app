@@ -12,13 +12,13 @@ The platform consists of a ticket managing system built with React for the front
 
 You can access the deployed application and the project's Trello board using the links below:
 
--   **Link to Deployed application :** [https://customer-react-app.vercel.app/signin](https://customer-react-app.vercel.app/signin)
--   **Link to Planning material used:** [https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system](https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system)
+-   **Link to Deployed application :** [Customer Ticketing Application](https://customer-react-app.vercel.app/signin)
+-   **Link to Planning material used:** [Trello Board](https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system)
 
 ## Attributions
 
 -   MDB React UI Kit
--   Project design inspiration [https://www.phpscriptdemos.com/support-desk/admin/index.php](https://www.phpscriptdemos.com/support-desk/admin/index.php)
+-   Project design inspiration [www.phpscriptdemos.com](https://www.phpscriptdemos.com/support-desk/admin/index.php)
 
 ## Technologies Used
 
