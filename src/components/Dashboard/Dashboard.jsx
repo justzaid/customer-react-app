@@ -4,12 +4,12 @@ import { AuthedUserContext } from "../../App";
 import { getMyTickets, getAllTickets } from '../../services/ticketService'; 
 
 // Components
-// SideNavbar is rendered in App.jsx, remove from here
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import MyTickets from "../MyTickets/MyTickets";
-import AllTickets from "../AllTickets/AllTickets"; // Import AllTickets
+import AllTickets from "../AllTickets/AllTickets";
 import TicketForm from "../TicketForm/TicketForm";
+import MyAssignedTickets from "../MyAssignedTickets/MyAssignedTickets";
 
 // CSS
 import "./Dashboard.css";
@@ -26,21 +26,18 @@ const Dashboard = () => {
         setToggleState(index);
     };
 
-    // Renamed function to fetch appropriate tickets based on role
+    // Function to fetch appropriate tickets based on role
     const fetchTickets = async () => {
         if (!user) return; // Exit if user is not defined
 
         setLoadingTickets(true);
         setTicketError(null);
-        setTickets([]); // Clear previous tickets
 
         try {
             let fetchedTickets;
             if (user.role === 'admin') {
-                // Fetch all tickets for admin
                 fetchedTickets = await getAllTickets(); 
             } else {
-                // Fetch only user's tickets
                 fetchedTickets = await getMyTickets();
             }
             setTickets(fetchedTickets);
@@ -60,10 +57,19 @@ const Dashboard = () => {
 
     const handleTicketCreated = () => {
         fetchTickets();
-        toggleTab(2); // Switch to My Tickets / All Tickets tab
+        toggleTab(2);
     };
 
-    // decided to dynamically render the number of opened tickets and then pass it as a prop to use rdashboard
+    // Handler for when a ticket is assigned in the AllTickets component
+    const handleTicketAssigned = (updatedTicket) => {
+        setTickets(prevTickets => 
+            prevTickets.map(ticket => 
+                ticket._id === updatedTicket._id ? updatedTicket : ticket
+            )
+        );
+    };
+
+    // Calculate counts based on the current tickets state
     const openTicketsCount = tickets.filter(ticket => ticket.status === 'Open').length;
     const repliedTicketsCount = tickets.filter(ticket => ticket.status === 'In progress').length;
     const closedTicketsCount = tickets.filter(ticket => ticket.status === 'Closed').length;
@@ -76,7 +82,6 @@ const Dashboard = () => {
 
 
     return (
-        // Remove the outer flex container and SideNavbar rendering
         <div className="p-6 bg-gray-100 min-h-screen flex-1"> 
             <h2 className="text-2xl font-semibold mt-10 mb-5">Welcome back, {user?.username || 'User'}</h2>
                 
@@ -88,8 +93,6 @@ const Dashboard = () => {
                             onClick={() => toggleTab(1)}>
                             Dashboard
                         </button> 
-
-
 
                         {user.role === "admin" ? 
                         <button 
@@ -104,10 +107,6 @@ const Dashboard = () => {
                             My Tickets
                         </button>
                         }
-
-
-
-
                         {user.role === "admin" ? 
                         <button 
                             className={`tab-button ${toggleState === 3 ? "active" : ""}`}
@@ -121,48 +120,29 @@ const Dashboard = () => {
                             Submit a new Ticket
                         </button>
                         }
-
-
-
-
-                        {user.role === "admin" ? 
                         <button 
                             className={`tab-button ${toggleState === 4 ? "active" : ""}`}
                             onClick={() => toggleTab(4)}>
                             Live support
                         </button>
-                        : 
-                        <button 
-                            className={`tab-button ${toggleState === 4 ? "active" : ""}`}
-                            onClick={() => toggleTab(4)}>
-                            Live support
-                        </button>
-                        }    
                     </div>
 
                     <div className="p-6">
-                        {user.role === "admin" ? (
-                        toggleState === 1 && (
-                            <div>
-                            <AdminDashboardCard />
-                            
-                            </div>
-                        )
-                    ) : (
-                        toggleState === 1 && (
-                            <div>
-                                <UserDashboardCard 
-                                    openTicketsCount={openTicketsCount} 
-                                    viewOpenTickets={switchToMyTicketsTab}
-                                    closedTicketsCount={closedTicketsCount}
-                                    resolvedTicketsCount={resolvedTicketsCount}
-                                    repliedTicketsCount={repliedTicketsCount}
-
-                                />
-                            </div>
-                        )
+                        {toggleState === 1 && (
+                            user.role === "admin" ? (
+                                <div><AdminDashboardCard /></div>
+                            ) : (
+                                <div>
+                                    <UserDashboardCard 
+                                        openTicketsCount={openTicketsCount} 
+                                        viewOpenTickets={switchToMyTicketsTab}
+                                        closedTicketsCount={closedTicketsCount}
+                                        resolvedTicketsCount={resolvedTicketsCount}
+                                        repliedTicketsCount={repliedTicketsCount}
+                                    />
+                                </div>
+                            )
                         )}
-
 
                         {toggleState === 2 && (
                             user.role === "admin" ? (
@@ -170,6 +150,7 @@ const Dashboard = () => {
                                     tickets={tickets} 
                                     loading={loadingTickets} 
                                     error={ticketError} 
+                                    onTicketAssigned={handleTicketAssigned}
                                 />
                             ) : (
                                 <MyTickets 
@@ -180,43 +161,33 @@ const Dashboard = () => {
                             )
                         )}
 
-
-
-                        {user.role === "admin" ? (
-                        toggleState === 3 && (
-                            <div>
-                                <h2 className="text-xl font-bold">My Assigned Tickets</h2>
-                                <hr className="my-2" />
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
-                            </div>
-                        )
-                        ) : (
-                        toggleState === 3 && (
-                            // Pass callback down to TicketForm
-                            <TicketForm onTicketCreated={handleTicketCreated} /> 
-                        )
+                        {toggleState === 3 && (
+                            user.role === "admin" ? (
+                                // Render the MyAssignedTickets component
+                                <MyAssignedTickets /> 
+                            ) : (
+                                <TicketForm onTicketCreated={handleTicketCreated} /> 
+                            )
                         )}
 
-
-
-                        {user.role === "admin" ? (
-                        toggleState === 4 && (
-                            <div>
-                                <h2 className="text-xl font-bold">Live support</h2>
-                                <hr className="my-2" />
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit...</p>
-                            </div>
-                        )
-                        ) : (
-                        toggleState === 4 && (
-                            <div>
-                            Content will be added soon
-                            </div>
-                        )
+                        {toggleState === 4 && (
+                            user.role === "admin" ? (
+                                <div>
+                                    <h2 className="text-xl font-bold">Live support</h2>
+                                    <hr className="my-2" />
+                                    <p>Feature coming soon...</p>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h2 className="text-xl font-bold">Live support</h2>
+                                    <hr className="my-2" />
+                                    <p>Feature coming soon...</p>
+                                </div>
+                            )
                         )}
                     </div>
                 </div>
-        </div> // Closing div for the main content area
+        </div>
     );
 };
 

@@ -1,18 +1,18 @@
-import React, { useContext } from "react"; // Import useContext
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"; 
-import { FaHome, FaClipboardList, FaFileAlt, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt, FaPlusCircle } from "react-icons/fa"; // Added more icons
-import { AuthedUserContext } from "../../App"; // Import user context
+import { FaHome, FaClipboardList, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt, FaPlusCircle } from "react-icons/fa"; // Added more icons
+import { AuthedUserContext } from "../../App";
 
 const SideNavbar = () => {
-    const user = useContext(AuthedUserContext); // Get user from context
+    const user = useContext(AuthedUserContext);
 
     // Determine links based on user role
     const navLinks = user?.role === 'admin' ? (
         <>
             <li className="p-2 hover:bg-gray-700 rounded">
-                <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed"> 
+                <Link to="/my-assigned-tickets" className="flex items-center gap-2">
                     <FaTicketAlt /> My Assigned Tickets
-                </span>
+                </Link>
             </li>
             <li className="p-2 hover:bg-gray-700 rounded">
                 <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">

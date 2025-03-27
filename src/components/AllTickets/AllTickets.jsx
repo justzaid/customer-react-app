@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Import the assignTicket service function
+import { assignTicket } from '../../services/ticketService';
 
-const AllTickets = ({ tickets, loading, error }) => {
+
+const AllTickets = ({ tickets, loading, error, onTicketAssigned }) => {
   const [statusFilter, setStatusFilter] = useState('All');
+  const [assigningTicketId, setAssigningTicketId] = useState(null);
 
 
   const handleFilterChange = (event) => {
@@ -16,13 +20,45 @@ const AllTickets = ({ tickets, loading, error }) => {
     navigate(`/tickets/${ticketId}`);
   };
 
+  // Function to handle the "Manage" button click
+  const handleManageClick = async (ticketId) => {
+    setAssigningTicketId(ticketId);
+    try {
+      const updatedTicket = await assignTicket(ticketId);
+      console.log('Ticket assigned:', updatedTicket);
+      if (onTicketAssigned) {
+        onTicketAssigned(updatedTicket);
+      }
+    } catch (error) {
+    } finally {
+      setAssigningTicketId(null); // Reset loading state
+    }
+  };
+
   const displayUserInfo = (user) => {
     if (!user) return 'No user available';
     return user.username || user.email || user._id;
   }
 
-  const displayAssignedTo = (agent) => {
-      if (!agent) return 'TBA';
+  // Updated function to display assigned agent or Manage button
+  const displayAssignedTo = (ticket) => {
+      if (!ticket.assignedTo) {
+          return (
+              <button
+                  onClick={() => handleManageClick(ticket._id)}
+                  disabled={assigningTicketId === ticket._id}
+                  className={`px-3 py-1 text-xs font-semibold rounded focus:outline-none focus:ring-2 focus:ring-green-300 ${
+                      assigningTicketId === ticket._id
+                          ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                          : 'bg-green-500 text-white hover:bg-green-600'
+                  }`}
+              >
+                  {assigningTicketId === ticket._id ? 'Assigning...' : 'Manage'}
+              </button>
+          );
+      }
+      // If assigned, display the agent's info
+      const agent = ticket.assignedTo;
       return agent.username || agent.email || agent._id;
   }
 
@@ -100,7 +136,8 @@ const AllTickets = ({ tickets, loading, error }) => {
                          {ticket.status}
                      </span>
                   </td>
-                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{displayAssignedTo(ticket.assignedTo)}</td>
+                  {/* Updated Assigned To cell */}
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{displayAssignedTo(ticket)}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm whitespace-nowrap">
                     <button
                       onClick={() => handleViewClick(ticket._id)}

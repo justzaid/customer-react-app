@@ -77,9 +77,12 @@ const TicketDetails = () => {
 
   const isOwner = user?._id === ticket?.customerId?._id;
 
+  // Determine the display value for Assigned To
+  const assignedToDisplay = ticket.assignedTo?.username || ticket.managingAdmin?.username || 'Unassigned';
+
   const ticketFields = [
     { label: 'Status', value: ticket.status },
-    { label: 'Assigned To', value: ticket.assignedTo?.username || 'Unassigned' },
+    { label: 'Assigned To', value: assignedToDisplay },
     { label: 'Subject', value: ticket.subject },
     { label: 'Description', value: ticket.description },
     { label: 'Category', value: ticket.category },
@@ -121,7 +124,7 @@ const TicketDetails = () => {
               Assigned To
             </h3>
             <p className="mt-1 text-sm text-gray-900">
-              {ticket.assignedTo?.username || 'Unassigned'}
+              {assignedToDisplay}
             </p>
           </div>
           <div className="flex items-center gap-4">

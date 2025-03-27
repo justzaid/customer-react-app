@@ -175,6 +175,44 @@ const getTicketById = async (ticketId) => {
   }
 };
 
+// Function for an admin to assign a ticket to themselves
+const assignTicket = async (ticketId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${ticketId}/assign`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
+    return res.json(); // Return the updated ticket data
+  } catch (error) {
+    console.error("Error assigning ticket:", error);
+    throw error;
+  }
+};
+
+// Function for an admin to get tickets assigned to them
+const getMyAssignedTickets = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/assigned-to-me`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching assigned tickets:", error);
+    throw error;
+  }
+};
+
+
 export {
   index,
   create,
@@ -184,7 +222,9 @@ export {
   deleteReview,
   updateReview,
   getMyTickets,
-  getTickets, // Note: Consider if this is still needed or should be admin-only
+  getTickets,
   getTicketById,
-  getAllTickets // Export the new function
+  getAllTickets,
+  assignTicket, // Export the new assign function
+  getMyAssignedTickets // Export the new function to get assigned tickets
 };
