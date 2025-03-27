@@ -48,10 +48,18 @@ const SideNavbar = () => {
 
     return (
         <div className="fixed top-0 left-0 w-64 bg-gray-900 text-white h-screen p-4 z-20">
-            <h2 className="text-xl font-bold mb-6">{user?.role === 'admin' ? 'Admin Panel' : 'Customer Portal'}</h2> 
-                <ul>
-                    <li className="p-2 hover:bg-gray-700 rounded">
-                        <Link to="/dashboard" className="flex items-center gap-2">
+            <div className="mb-5">
+                <img 
+                    src="https://cdn-icons-png.freepik.com/256/3076/3076141.png?ga=GA1.1.632310140.1737565413&semt=ais_hybrid"
+                    alt="Logo"
+                    className="mb-4"
+                    style={{ width: '50px', height: '50px' }} 
+                />
+                <h2 className="text-xl font-bold">{user?.role === 'admin' ? 'Admin Panel' : 'Customer Portal'}</h2> 
+            </div>
+            <ul>
+                <li className="p-2 hover:bg-gray-700 rounded">
+                    <Link to="/dashboard" className="flex items-center gap-2">
                             <FaHome /> Dashboard
                         </Link>
                     </li>
