@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthedUserContext } from "../../App";
-// Import specific functions needed
 import { getMyTickets, getAllTickets } from '../../services/ticketService'; 
 
 // Components
@@ -130,7 +129,14 @@ const Dashboard = () => {
                     <div className="p-6">
                         {toggleState === 1 && (
                             user.role === "admin" ? (
-                                <div><AdminDashboardCard /></div>
+                                <div>
+                                    <AdminDashboardCard 
+                                        openTicketsCount={openTicketsCount} 
+                                        repliedTicketsCount={repliedTicketsCount}
+                                        closedTicketsCount={closedTicketsCount}
+                                        resolvedTicketsCount={resolvedTicketsCount}
+                                    />
+                                </div>
                             ) : (
                                 <div>
                                     <UserDashboardCard 
