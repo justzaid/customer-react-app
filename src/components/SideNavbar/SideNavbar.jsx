@@ -7,7 +7,6 @@ import { AuthedUserContext } from "../../App";
 const SideNavbar = () => {
     const user = useContext(AuthedUserContext);
 
-    // Determine links based on user role
     const navLinks = user?.role === 'admin' ? (
         <>
             <li className="p-2 hover:bg-gray-700 rounded">
