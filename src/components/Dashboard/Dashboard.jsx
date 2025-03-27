@@ -9,6 +9,8 @@ import MyTickets from "../MyTickets/MyTickets";
 import AllTickets from "../AllTickets/AllTickets";
 import TicketForm from "../TicketForm/TicketForm";
 import MyAssignedTickets from "../MyAssignedTickets/MyAssignedTickets";
+import TicketStatsChart from '../TicketStatsChart/TicketStatsChart'; // Import the chart component
+import AdminPersonalStats from '../AdminPersonalStats/AdminPersonalStats'; // Import the new stats component
 
 // CSS
 import "./Dashboard.css";
@@ -124,6 +126,11 @@ const Dashboard = () => {
                             onClick={() => toggleTab(4)}>
                             Live support
                         </button>
+                        <button 
+                            className={`tab-button ${toggleState === 5 ? "active" : ""}`}
+                            onClick={() => toggleTab(5)}>
+                            Admin Playground
+                        </button>
                     </div>
 
                     <div className="p-6">
@@ -135,8 +142,14 @@ const Dashboard = () => {
                                         repliedTicketsCount={repliedTicketsCount}
                                         closedTicketsCount={closedTicketsCount}
                                         resolvedTicketsCount={resolvedTicketsCount}
-                                        switchToTab={toggleTab} // Pass the toggleTab function here
+                                        switchToTab={toggleTab}
                                     />
+                                    <div className="mt-6">
+                                        <AdminPersonalStats />
+                                    </div>
+                                    <div className="mt-6">
+                                        <TicketStatsChart />
+                                    </div>
                                 </div>
                             ) : (
                                 <div>
@@ -170,7 +183,6 @@ const Dashboard = () => {
 
                         {toggleState === 3 && (
                             user.role === "admin" ? (
-                                // Render the MyAssignedTickets component
                                 <MyAssignedTickets /> 
                             ) : (
                                 <TicketForm onTicketCreated={handleTicketCreated} /> 
@@ -191,6 +203,17 @@ const Dashboard = () => {
                                     <p>Feature coming soon...</p>
                                 </div>
                             )
+                        )}
+
+                        {toggleState === 5 && (
+                            <div>
+                                <h2 className="text-xl font-bold mb-4">Flip Card Game</h2>
+                                <iframe 
+                                    src="https://justzaid.github.io/flip-card-game/" 
+                                    title="Flip Card Game"
+                                    style={{ width: '100%', height: '600px', border: 'none' }} // Adjust styling as needed
+                                ></iframe>
+                            </div>
                         )}
                     </div>
                 </div>

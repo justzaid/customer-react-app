@@ -1,12 +1,44 @@
-# React + Vite
+# Customer React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+This project is a ticket managing system built with React for the frontend and Express for the backend API. It allows users to create, view, and manage support tickets. Administrators and support agents have additional privileges to manage tickets and users.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+You can access the deployed application and the project's Trello board using the links below:
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+-   **Live Application:** [https://customer-react-app.vercel.app/signin](https://customer-react-app.vercel.app/signin)
+-   **Trello Board:** [https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system](https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system)
+
+## Attributions
+
+*(Placeholder for attributions - please add details about any third-party libraries, assets, or resources used in this project.)*
+
+## Technologies Used
+
+This project utilizes a variety of modern web technologies:
+
+*   **Frontend:**
+    *   React
+    *   Vite
+    *   Tailwind CSS
+    *   React Router
+    *   Chart.js (for data visualization)
+*   **Backend:**
+    *   Node.js
+    *   Express
+    *   MongoDB (with Mongoose)
+    *   JWT (for authentication)
+*   **Deployment:**
+    *   Vercel (for frontend)
+    *   Heroku (for backend deployment platform)
+
+## Next Steps
+
+Future enhancements planned for this application include:
+
+*   Developing a live chat feature where customers and users can interact with each other in real-time.
+*   Adding email notifications for ticket assignments and updates.
+*   Add more control over profile, and user related data for user experience.
+*   Adding external API's for company related data.

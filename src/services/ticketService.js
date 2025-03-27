@@ -15,7 +15,7 @@ const index = async () => {
 const getMyTickets = async () => {
   try {
 
-    const res = await fetch(`${BASE_URL}/my-tickets`, { 
+    const res = await fetch(`${BASE_URL}/my-tickets`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     if (!res.ok) {
@@ -33,7 +33,7 @@ const getMyTickets = async () => {
 // Function specifically for admins to get all tickets
 const getAllTickets = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/all`, { // Targeting the new admin endpoint
+    const res = await fetch(`${BASE_URL}/all`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     if (!res.ok) {
@@ -162,12 +162,12 @@ const getTicketById = async (ticketId) => {
     const res = await fetch(`${BASE_URL}/my-tickets/${ticketId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    
+
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
     }
-    
+
     return res.json();
   } catch (error) {
     console.error("Error fetching ticket:", error);
@@ -188,7 +188,7 @@ const assignTicket = async (ticketId) => {
       const errorData = await res.json();
       throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
     }
-    return res.json(); // Return the updated ticket data
+    return res.json();
   } catch (error) {
     console.error("Error assigning ticket:", error);
     throw error;
@@ -212,6 +212,26 @@ const getMyAssignedTickets = async () => {
   }
 };
 
+// Function for an admin to get ticket statistics
+const getTicketStats = async (groupBy = 'day') => {
+  try {
+    const url = new URL(`${BASE_URL}/stats`);
+    url.searchParams.append('groupBy', groupBy);
+
+    const res = await fetch(url.toString(), {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || `HTTP error! status: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching ticket stats:", error);
+    throw error;
+  }
+};
+
 
 export {
   index,
@@ -225,6 +245,7 @@ export {
   getTickets,
   getTicketById,
   getAllTickets,
-  assignTicket, // Export the new assign function
-  getMyAssignedTickets // Export the new function to get assigned tickets
+  assignTicket,
+  getMyAssignedTickets,
+  getTicketStats
 };

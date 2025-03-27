@@ -118,22 +118,24 @@ const TicketDetails = () => {
         >
           &larr; Back to List
         </button>
-        {isOwner && (
-          <div className="flex gap-2">
+        <div className="flex gap-2">
+          {isOwner && (
             <Link
               to={`/tickets/${id}/edit`}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
             >
               Edit
             </Link>
+          )}
+          {(isOwner || user?.role === 'admin') && (
             <button
               onClick={handleDelete}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
             >
               Delete
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <h2 className="text-2xl font-bold mt-10 mb-3">Ticket Details</h2>
       <div className="bg-white rounded-lg shadow-md p-6">
