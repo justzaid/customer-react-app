@@ -10,7 +10,10 @@ const TicketDetails = () => {
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState('');
   const user = useContext(AuthedUserContext);
+
+  const statusOptions = ['Open', 'In progress', 'Resolved', 'Closed'];
 
   const fetchTicket = async () => {
     try {
@@ -20,6 +23,7 @@ const TicketDetails = () => {
         ticketData.reviews.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       }
       setTicket(ticketData);
+      setSelectedStatus(ticketData.status);
       setError(null);
     } catch (error) {
       console.error(error);
@@ -56,6 +60,24 @@ const TicketDetails = () => {
     }
   };
 
+  const handleStatusChange = async (event) => {
+    const newStatus = event.target.value;
+    setSelectedStatus(newStatus);
+
+    try {
+      const updatedTicketData = await ticketService.update(id, { status: newStatus });
+      setTicket(prevTicket => ({
+        ...prevTicket,
+        status: updatedTicketData.status,
+        updatedAt: updatedTicketData.updatedAt
+      }));
+      setError(null);
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      setError(`Failed to update status: ${error.message}. Please try again.`);
+    }
+  };
+
   // --- Delete Handler ---
   const handleDelete = async () => {
     try {
@@ -77,16 +99,13 @@ const TicketDetails = () => {
 
   const isOwner = user?._id === ticket?.customerId?._id;
 
-  // Determine the display value for Assigned To
   const assignedToDisplay = ticket.assignedTo?.username || ticket.managingAdmin?.username || 'Unassigned';
 
   const ticketFields = [
     { label: 'Status', value: ticket.status },
-    { label: 'Assigned To', value: assignedToDisplay },
     { label: 'Subject', value: ticket.subject },
-    { label: 'Description', value: ticket.description },
     { label: 'Category', value: ticket.category },
-    { label: 'Date Created', value: formatDate(ticket.createdAt) },
+    { label: 'Description', value: ticket.description },
     { label: 'Last Updated', value: formatDate(ticket.updatedAt) },
   ];
 
@@ -140,26 +159,46 @@ const TicketDetails = () => {
             </div>
           </div>
         </div>
-        {ticketFields
-          .filter(field => !['Assigned To', 'Date Created'].includes(field.label))
-          .map((field) => (
+        {ticketFields.map((field) => (
             <div key={field.label} className="mb-4">
-              <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                {field.label}
-              </h3>
               {field.label === 'Status' ? (
-                <span className={`mt-1 px-3 py-1 inline-flex text-sm leading-6 font-semibold rounded-full ${
-                  field.value === 'Open' ? 'bg-green-100 text-green-800' :
-                  field.value === 'In progress' ? 'bg-yellow-100 text-yellow-800' :
-                  field.value === 'Resolved' ? 'bg-blue-100 text-blue-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {field.value}
-                </span>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                      {field.label}
+                    </h3>
+                    <span className={`mt-1 px-3 py-1 inline-flex text-sm leading-6 font-semibold rounded-full ${
+                      ticket.status === 'Open' ? 'bg-green-100 text-green-800' :
+                      ticket.status === 'In progress' ? 'bg-yellow-100 text-yellow-800' :
+                      ticket.status === 'Resolved' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {ticket.status}
+                    </span>
+                  </div>
+                  {user?.role === 'admin' && (
+                    <select
+                      value={selectedStatus}
+                      onChange={handleStatusChange}
+                      className="p-1 border border-gray-300 rounded text-sm" 
+                    >
+                      {statusOptions.map(option => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
               ) : (
-                <p className="mt-1 text-sm text-gray-900">
-                  {field.value}
-                </p>
+                <>
+                  <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                    {field.label}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-900">
+                    {field.value}
+                  </p>
+                </>
               )}
             </div>
           ))}
