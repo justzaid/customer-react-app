@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Receive props from Dashboard
 const MyTickets = ({ tickets, loading, error }) => {
-  // State for the status filter dropdown
   const [statusFilter, setStatusFilter] = useState('All');
 
-  // Handler for dropdown change
   const handleFilterChange = (e) => {
     setStatusFilter(e.target.value);
   };
@@ -22,7 +19,6 @@ const MyTickets = ({ tickets, loading, error }) => {
       return agent.username || agent.email || agent._id;
   }
 
-  // Filter tickets based on the selected status
   const filteredTickets = tickets.filter(ticket => {
     if (statusFilter === 'All') {
       return true;
@@ -38,7 +34,6 @@ const MyTickets = ({ tickets, loading, error }) => {
     return <div className="p-4 text-red-600">Error: {error}</div>;
   }
 
-  // Define possible statuses for the dropdown
   const statuses = ['All', 'Open', 'In progress', 'Resolved', 'Closed'];
 
   return (

@@ -26,7 +26,6 @@ const TicketDetails = () => {
       setSelectedStatus(ticketData.status);
       setError(null);
     } catch (error) {
-      console.error(error);
       setError(`Failed to fetch ticket details: ${error.message}`);
       setTicket(null);
     } finally {
@@ -55,7 +54,6 @@ const TicketDetails = () => {
       });
       setError(null);
     } catch (error) {
-      console.error(error);
       setError(`Failed to submit review: ${error.message}. Please try again.`);
     }
   };
@@ -73,18 +71,15 @@ const TicketDetails = () => {
       }));
       setError(null);
     } catch (error) {
-      console.error('Failed to update status:', error);
       setError(`Failed to update status: ${error.message}. Please try again.`);
     }
   };
 
-  // --- Delete Handler ---
   const handleDelete = async () => {
     try {
       await ticketService.deleteTicket(id);
       navigate('/dashboard');
     } catch (error) {
-      console.error(error);
       setError(`Failed to delete ticket: ${error.message}`);
     }
   };

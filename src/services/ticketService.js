@@ -7,7 +7,6 @@ const index = async () => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -25,12 +24,10 @@ const getMyTickets = async () => {
     }
     return res.json();
   } catch (error) {
-    console.error("Error fetching user's tickets:", error);
     throw error;
   }
 };
 
-// Function specifically for admins to get all tickets
 const getAllTickets = async () => {
   try {
     const res = await fetch(`${BASE_URL}/all`, {
@@ -42,7 +39,6 @@ const getAllTickets = async () => {
     }
     return res.json();
   } catch (error) {
-    console.error("Error fetching all tickets:", error);
     throw error;
   }
 };
@@ -59,7 +55,6 @@ const create = async (ticketFormData) => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -75,7 +70,6 @@ const createReview = async (ticketId, reviewFormData) => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -89,7 +83,6 @@ const deleteTicket = async (ticketId) => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -105,7 +98,6 @@ const update = async (ticketId, ticketFormData) => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -124,7 +116,6 @@ const deleteReview = async (ticketId, reviewId) => {
       throw new Error('Failed to delete review');
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -141,7 +132,6 @@ const updateReview = async (ticketId, reviewId, reviewFormData) => {
     });
     return res.json();
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -152,7 +142,6 @@ const getTickets = async () => {
     });
     return res.json();
   } catch (error) {
-    console.error('Error fetching tickets:', error);
     throw error;
   }
 };
@@ -170,12 +159,10 @@ const getTicketById = async (ticketId) => {
 
     return res.json();
   } catch (error) {
-    console.error("Error fetching ticket:", error);
     throw error;
   }
 };
 
-// Function for an admin to assign a ticket to themselves
 const assignTicket = async (ticketId) => {
   try {
     const res = await fetch(`${BASE_URL}/${ticketId}/assign`, {
@@ -190,12 +177,10 @@ const assignTicket = async (ticketId) => {
     }
     return res.json();
   } catch (error) {
-    console.error("Error assigning ticket:", error);
     throw error;
   }
 };
 
-// Function for an admin to get tickets assigned to them
 const getMyAssignedTickets = async () => {
   try {
     const res = await fetch(`${BASE_URL}/assigned-to-me`, {
@@ -207,12 +192,10 @@ const getMyAssignedTickets = async () => {
     }
     return res.json();
   } catch (error) {
-    console.error("Error fetching assigned tickets:", error);
     throw error;
   }
 };
 
-// Function for an admin to get ticket statistics
 const getTicketStats = async (groupBy = 'day') => {
   try {
     const url = new URL(`${BASE_URL}/stats`);
@@ -227,7 +210,6 @@ const getTicketStats = async (groupBy = 'day') => {
     }
     return res.json();
   } catch (error) {
-    console.error("Error fetching ticket stats:", error);
     throw error;
   }
 };

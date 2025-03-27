@@ -2,17 +2,15 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthedUserContext } from "../../App";
 import { getMyTickets, getAllTickets } from '../../services/ticketService'; 
 
-// Components
 import AdminDashboardCard from "../AdminDashboardCard/AdminDashboardCard";
 import UserDashboardCard from "../UserDashboardCard/UserDashboardCard";
 import MyTickets from "../MyTickets/MyTickets";
 import AllTickets from "../AllTickets/AllTickets";
 import TicketForm from "../TicketForm/TicketForm";
 import MyAssignedTickets from "../MyAssignedTickets/MyAssignedTickets";
-import TicketStatsChart from '../TicketStatsChart/TicketStatsChart'; // Import the chart component
-import AdminPersonalStats from '../AdminPersonalStats/AdminPersonalStats'; // Import the new stats component
+import TicketStatsChart from '../TicketStatsChart/TicketStatsChart';
+import AdminPersonalStats from '../AdminPersonalStats/AdminPersonalStats';
 
-// CSS
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -27,9 +25,8 @@ const Dashboard = () => {
         setToggleState(index);
     };
 
-    // Function to fetch appropriate tickets based on role
     const fetchTickets = async () => {
-        if (!user) return; // Exit if user is not defined
+        if (!user) return;
 
         setLoadingTickets(true);
         setTicketError(null);
@@ -43,14 +40,12 @@ const Dashboard = () => {
             }
             setTickets(fetchedTickets);
         } catch (error) {
-            console.error("Dashboard fetchTickets error:", error);
             setTicketError(`Failed to fetch tickets: ${error.message || error}`);
         } finally {
             setLoadingTickets(false);
         }
     };
 
-    // Fetch tickets when component mounts or user changes
     useEffect(() => {
         fetchTickets();
     }, [user]);
@@ -61,7 +56,6 @@ const Dashboard = () => {
         toggleTab(2);
     };
 
-    // Handler for when a ticket is assigned in the AllTickets component
     const handleTicketAssigned = (updatedTicket) => {
         setTickets(prevTickets => 
             prevTickets.map(ticket => 
@@ -70,13 +64,11 @@ const Dashboard = () => {
         );
     };
 
-    // Calculate counts based on the current tickets state
     const openTicketsCount = tickets.filter(ticket => ticket.status === 'Open').length;
     const repliedTicketsCount = tickets.filter(ticket => ticket.status === 'In progress').length;
     const closedTicketsCount = tickets.filter(ticket => ticket.status === 'Closed').length;
     const resolvedTicketsCount = tickets.filter(ticket => ticket.status === 'Resolved').length;
 
-    // Function to switch to the My Tickets tab (index 2)
     const switchToMyTicketsTab = () => {
         toggleTab(2);
     };
@@ -126,11 +118,13 @@ const Dashboard = () => {
                             onClick={() => toggleTab(4)}>
                             Live support
                         </button>
-                        <button 
-                            className={`tab-button ${toggleState === 5 ? "active" : ""}`}
-                            onClick={() => toggleTab(5)}>
-                            Admin Playground
-                        </button>
+                        {user.role === "admin" && (
+                            <button
+                                className={`tab-button ${toggleState === 5 ? "active" : ""}`}
+                                onClick={() => toggleTab(5)}>
+                                Admin Playground
+                            </button>
+                        )}
                     </div>
 
                     <div className="p-6">
@@ -205,13 +199,13 @@ const Dashboard = () => {
                             )
                         )}
 
-                        {toggleState === 5 && (
+                        {user.role === "admin" && toggleState === 5 && (
                             <div>
                                 <h2 className="text-xl font-bold mb-4">Flip Card Game</h2>
-                                <iframe 
+                                <iframe
                                     src="https://justzaid.github.io/flip-card-game/" 
                                     title="Flip Card Game"
-                                    style={{ width: '100%', height: '600px', border: 'none' }} // Adjust styling as needed
+                                    style={{ width: '100%', height: '600px', border: 'none' }}
                                 ></iframe>
                             </div>
                         )}

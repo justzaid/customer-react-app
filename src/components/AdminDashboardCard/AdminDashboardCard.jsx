@@ -4,18 +4,15 @@ import { Card, CardContent } from "../Card/Card";
 import { FaFileAlt, FaReplyAll } from "react-icons/fa";
 import { MdNotificationsActive, MdLiveHelp } from "react-icons/md";
 
-// Renamed cardData to dynamicCardData and accept props for counts and tab switching
 const AdminDashboardCard = ({ openTicketsCount = 0, repliedTicketsCount = 0, closedTicketsCount = 0, switchToTab }) => {
   
   const dynamicCardData = [
-    // Added targetTab property to specify which tab each card's link should switch to
     { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: openTicketsCount, text: "Open Tickets", targetTab: 2 },
     { id: 2, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: repliedTicketsCount, text: "Replied Tickets", targetTab: 2 },
     { id: 3, color: "bg-[#D9534F]", icon: <FaFileAlt size={40} className="text-red-100" />, value: closedTicketsCount, text: "Closed Tickets", targetTab: 2 },
     { id: 4, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 5, text: "Quick Tips", targetTab: 'quick-tips' }
   ];
 
-  // Handler function to call switchToTab if it exists and a targetTab is specified (numeric)
   const handleViewDetailsClick = (targetTab) => {
     if (switchToTab && targetTab !== null) {
       switchToTab(targetTab);

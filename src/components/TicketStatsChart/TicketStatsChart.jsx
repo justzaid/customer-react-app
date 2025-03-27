@@ -12,7 +12,6 @@ import {
 } from 'chart.js';
 import * as ticketService from '../../services/ticketService';
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -50,10 +49,8 @@ const TicketStatsChart = () => {
           });
         } else {
            setChartData({ labels: [], datasets: [] });
-           console.warn("Received empty or invalid stats data:", stats);
         }
-      } catch (err) {
-        console.error('Error fetching ticket stats:', err);
+      } catch (error) {
         setError('Failed to load chart data. Please try again later.');
          setChartData({ labels: [], datasets: [] });
       } finally {

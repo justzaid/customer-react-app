@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Import the assignTicket service function
 import { assignTicket } from '../../services/ticketService';
 
 
@@ -20,12 +19,10 @@ const AllTickets = ({ tickets, loading, error, onTicketAssigned }) => {
     navigate(`/tickets/${ticketId}`);
   };
 
-  // Function to handle the "Manage" button click
   const handleManageClick = async (ticketId) => {
     setAssigningTicketId(ticketId);
     try {
       const updatedTicket = await assignTicket(ticketId);
-      console.log('Ticket assigned:', updatedTicket);
       if (onTicketAssigned) {
         onTicketAssigned(updatedTicket);
       }
@@ -40,7 +37,6 @@ const AllTickets = ({ tickets, loading, error, onTicketAssigned }) => {
     return user.username || user.email || user._id;
   }
 
-  // Updated function to display assigned agent or Manage button
   const displayAssignedTo = (ticket) => {
       if (!ticket.assignedTo) {
           return (
@@ -57,7 +53,6 @@ const AllTickets = ({ tickets, loading, error, onTicketAssigned }) => {
               </button>
           );
       }
-      // If assigned, display the agent's info
       const agent = ticket.assignedTo;
       return agent.username || agent.email || agent._id;
   }

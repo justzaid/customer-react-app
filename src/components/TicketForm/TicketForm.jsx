@@ -26,7 +26,6 @@ const TicketForm = ({ onTicketCreated }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
-  // Fetch ticket data if in edit mode
   useEffect(() => {
     if (isEditMode) {
       const fetchTicketData = async () => {
@@ -70,7 +69,6 @@ const TicketForm = ({ onTicketCreated }) => {
     try {
       let result;
       if (isEditMode) {
-        // --- Update Logic ---
         result = await ticketService.update(id, formData);
         if (result && result._id) {
           setSuccessMessage(`Ticket "${result.subject}" updated successfully!`);
@@ -79,7 +77,6 @@ const TicketForm = ({ onTicketCreated }) => {
           setError('Failed to update ticket. Response was unexpected.');
         }
       } else {
-        // --- Create Logic ---
         result = await ticketService.create(formData);
         if (result && result.subject) {
           setSuccessMessage(`Ticket "${result.subject}" created successfully!`);
@@ -102,7 +99,6 @@ const TicketForm = ({ onTicketCreated }) => {
     }
   };
 
-  // Display loading indicator while fetching data in edit mode
   if (isFetching) {
     return <div className="p-4">Loading ticket data...</div>;
   }
