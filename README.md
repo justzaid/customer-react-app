@@ -1,19 +1,24 @@
 # Customer React App
 
+![Project landing page](image.png)
+
 ## Project Description
 
-This project is a ticket managing system built with React for the frontend and Express for the backend API. It allows users to create, view, and manage support tickets. Administrators and support agents have additional privileges to manage tickets and users.
+Airque is a customer service platform that efficiently manages customer tickets. These tickets are raised by users to address concerns related to their experiences with the airline's services.
+
+The platform consists of a ticket managing system built with React for the frontend and Express for the backend using an API. It allows registered users to create, view, update and delete support tickets while also send reviews as responses based on support agent feedbacks. Administrators or support agents have additional privileges to manage tickets and users.
 
 ## Getting Started
 
 You can access the deployed application and the project's Trello board using the links below:
 
--   **Live Application:** [https://customer-react-app.vercel.app/signin](https://customer-react-app.vercel.app/signin)
--   **Trello Board:** [https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system](https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system)
+-   **Link to Deployed application :** [https://customer-react-app.vercel.app/signin](https://customer-react-app.vercel.app/signin)
+-   **Link to Planning material used:** [https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system](https://trello.com/b/N4oIyEP2/project-4-crud-ticket-managing-system)
 
 ## Attributions
 
-*(Placeholder for attributions - please add details about any third-party libraries, assets, or resources used in this project.)*
+-   MDB React UI Kit
+-   Project design inspiration [https://www.phpscriptdemos.com/support-desk/admin/index.php](https://www.phpscriptdemos.com/support-desk/admin/index.php)
 
 ## Technologies Used
 
