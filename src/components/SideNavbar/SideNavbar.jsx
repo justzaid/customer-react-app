@@ -15,11 +15,6 @@ const SideNavbar = () => {
                     <FaTicketAlt /> My Assigned Tickets
                 </Link>
             </li>
-            <li className="p-2 hover:bg-gray-700 rounded">
-                <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
-                    <FaHeadset /> Live Support
-                </span>
-            </li>
              <li className="p-2 hover:bg-gray-700 rounded">
                 <Link to="/support-agents" className="flex items-center gap-2">
                     <FaUsers /> Support Agents
@@ -30,6 +25,11 @@ const SideNavbar = () => {
                     <MdLiveHelp /> Quick Tips
                 </Link>
             </li>
+            <li className="p-2 hover:bg-gray-700 rounded">
+                <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
+                    <FaHeadset /> Live Support
+                </span>
+            </li>
         </>
     ) : (
         <>
@@ -37,11 +37,6 @@ const SideNavbar = () => {
                 <Link to="/dashboard" className="flex items-center gap-2">
                     <FaClipboardList /> My Tickets
                 </Link>
-            </li>
-            <li className="p-2 hover:bg-gray-700 rounded">
-                 <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
-                    <FaPlusCircle /> Submit a new Ticket
-                 </span>
             </li>
             <li className="p-2 hover:bg-gray-700 rounded">
                 <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
@@ -68,13 +63,6 @@ const SideNavbar = () => {
                             <FaUserAlt /> My Profile
                         </span>
                     </li>
-                    {user?.role === 'admin' && (
-                         <li className="p-2 hover:bg-gray-700 rounded">
-                            <span className="flex items-center gap-2 text-gray-500 cursor-not-allowed">
-                                <FaCogs /> Settings
-                            </span>
-                        </li>
-                    )}
                 </ul>
         </div>
   );
