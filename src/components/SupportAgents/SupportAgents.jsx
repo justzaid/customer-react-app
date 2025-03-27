@@ -34,7 +34,7 @@ const SupportAgents = () => {
         <Navbar />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-6">
           <div className="container mx-auto">
-            <h1 className="text-3xl font-semibold text-gray-800 mb-6">Support Agents</h1>
+            <h1 className="text-2xl font-bold mt-5 mb-5">Support Agents</h1>
 
             {loading && <p>Loading support agents...</p>}
             {error && <p className="text-red-500">{error}</p>}

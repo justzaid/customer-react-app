@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "../Card/Card";
 import { FaFileAlt, FaReplyAll } from "react-icons/fa";
 import { MdNotificationsActive, MdLiveHelp } from "react-icons/md";
@@ -8,13 +9,13 @@ const AdminDashboardCard = ({ openTicketsCount = 0, repliedTicketsCount = 0, clo
   
   const dynamicCardData = [
     // Added targetTab property to specify which tab each card's link should switch to
-    { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: openTicketsCount, text: "Open Tickets", targetTab: 2 }, // Assuming Open Tickets should also go to All Tickets (Tab 2)
-    { id: 2, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: repliedTicketsCount, text: "Replied Tickets", targetTab: 2 }, // Assuming Replied Tickets should also go to All Tickets (Tab 2)
-    { id: 3, color: "bg-[#D9534F]", icon: <FaFileAlt size={40} className="text-red-100" />, value: closedTicketsCount, text: "Closed Tickets", targetTab: 2 }, // Assuming Closed Tickets should also go to All Tickets (Tab 2)
-    { id: 4, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 5, text: "Quick Tips", targetTab: null } // Assuming Quick Tips doesn't switch tabs
+    { id: 1, color: "bg-[#5CB85C]", icon: <MdNotificationsActive size={40} className="text-white" />, value: openTicketsCount, text: "Open Tickets", targetTab: 2 },
+    { id: 2, color: "bg-[#F0AD4E]", icon: <FaReplyAll size={40} className="text-amber-50" />, value: repliedTicketsCount, text: "Replied Tickets", targetTab: 2 },
+    { id: 3, color: "bg-[#D9534F]", icon: <FaFileAlt size={40} className="text-red-100" />, value: closedTicketsCount, text: "Closed Tickets", targetTab: 2 },
+    { id: 4, color: "bg-[#3B82F6]", icon: <MdLiveHelp size={40} className="text-white" />, value: 5, text: "Quick Tips", targetTab: 'quick-tips' }
   ];
 
-  // Handler function to call switchToTab if it exists and a targetTab is specified
+  // Handler function to call switchToTab if it exists and a targetTab is specified (numeric)
   const handleViewDetailsClick = (targetTab) => {
     if (switchToTab && targetTab !== null) {
       switchToTab(targetTab);
@@ -37,16 +38,25 @@ const AdminDashboardCard = ({ openTicketsCount = 0, repliedTicketsCount = 0, clo
             </CardContent>
             </Card>
             <div className="mt-2 text-left">
+              {card.targetTab === 'quick-tips' ? (
+                <Link 
+                  to="/quick-tips" 
+                  style={{ color: card.color.replace("bg-[", "").replace("]", ""), cursor: 'pointer' }}
+                >
+                  View Tips
+                </Link>
+              ) : (
                 <a 
                   onClick={() => handleViewDetailsClick(card.targetTab)} 
                   style={{ color: card.color.replace("bg-[", "").replace("]", ""), cursor: card.targetTab !== null ? 'pointer' : 'default' }}
                   className={card.targetTab === null ? 'text-gray-400' : ''}
                 >
-                  {card.targetTab !== null ? 'View Details' : 'No Action'}
+                  {card.targetTab !== null ? 'View Details' : 'No Action'} 
                 </a>
-                <hr className="my-2 border-grey-300" />
+              )}
+              <hr className="my-2 border-grey-300" />
+            </div>
           </div>
-        </div>
         ))}
 
     </div>

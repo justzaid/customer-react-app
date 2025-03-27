@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { Link } from "react-router-dom"; 
-import { FaHome, FaClipboardList, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt, FaPlusCircle } from "react-icons/fa"; // Added more icons
+import { FaHome, FaClipboardList, FaCogs, FaUsers, FaHeadset, FaUserAlt, FaTicketAlt, FaPlusCircle } from "react-icons/fa";
+import { MdLiveHelp } from "react-icons/md";
 import { AuthedUserContext } from "../../App";
 
 const SideNavbar = () => {
@@ -22,6 +23,11 @@ const SideNavbar = () => {
              <li className="p-2 hover:bg-gray-700 rounded">
                 <Link to="/support-agents" className="flex items-center gap-2">
                     <FaUsers /> Support Agents
+                </Link>
+            </li>
+            <li className="p-2 hover:bg-gray-700 rounded">
+                <Link to="/quick-tips" className="flex items-center gap-2">
+                    <MdLiveHelp /> Quick Tips
                 </Link>
             </li>
         </>

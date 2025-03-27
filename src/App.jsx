@@ -17,8 +17,8 @@ import SideNavbar from './components/SideNavbar/SideNavbar';
 import TicketDetails from './components/TicketDetails/TicketDetails';
 import TicketForm from './components/TicketForm/TicketForm';
 import SupportAgents from './components/SupportAgents/SupportAgents';
-// Import the new component
 import MyAssignedTickets from './components/MyAssignedTickets/MyAssignedTickets';
+import QuickTips from './components/QuickTips/QuickTips';
 
 export const AuthedUserContext = createContext(null);
 
@@ -54,23 +54,22 @@ const App = () => {
               <Route path="/dashboard" element={<div className="p-6"><Dashboard setUser={setUser} handleSignout={handleSignout}/></div>} />
               <Route path="/tickets/:id" element={<div className="p-6"><TicketDetails /></div>} />
               <Route path="/tickets/:id/edit" element={<div className="p-6"><TicketForm /></div>} />
-              {/* Admin-only routes */}
+
               {user.role === 'admin' && (
                 <>
                   <Route path="/support-agents" element={<SupportAgents />} />
-                  {/* Add route for My Assigned Tickets */}
                   <Route path="/my-assigned-tickets" element={<div className="p-6"><MyAssignedTickets /></div>} />
+                  <Route path="/quick-tips" element={<div className="p-6"><QuickTips /></div>} />
                 </>
               )}
-              {/* Redirects for logged-in users */}
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signin" element={<Navigate to="/dashboard" replace />} />
               <Route path="/signup" element={<Navigate to="/dashboard" replace />} />
-              {/* Fallback for non-admin trying to access admin routes (optional, could show a 'Forbidden' page) */}
               {user.role !== 'admin' && (
                 <>
                   <Route path="/support-agents" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/my-assigned-tickets" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/quick-tips" element={<Navigate to="/dashboard" replace />} />
                 </>
               )}
             </>
@@ -85,6 +84,7 @@ const App = () => {
               <Route path="/tickets/*" element={<Navigate to="/signin" replace />} />
               <Route path="/support-agents" element={<Navigate to="/signin" replace />} />
               <Route path="/my-assigned-tickets" element={<Navigate to="/signin" replace />} />
+              <Route path="/quick-tips" element={<Navigate to="/signin" replace />} />
             </>
           )}
         </Routes>
